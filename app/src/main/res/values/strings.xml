@@ -13,4 +13,10 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+
+    <string name="base_url">https://api.github.com/</string>
+
+    <string name="empty"></string>
+    <string name="main">Main</string>
 </resources>

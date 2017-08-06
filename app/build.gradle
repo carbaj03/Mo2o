@@ -1,9 +1,7 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
-
+apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.1"
@@ -14,6 +12,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -21,6 +20,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+}
+
+kapt {
+    generateStubs = true
 }
 
 dependencies {
@@ -37,11 +40,11 @@ dependencies {
     compile rootProject.ext.dependencies.vector
     compile rootProject.ext.dependencies.constraint
 
-    annotationProcessor rootProject.ext.dependencies.lifecycleCompiler
+    kapt rootProject.ext.dependencies.lifecycleCompiler
     compile rootProject.ext.dependencies.lifecycle
     compile rootProject.ext.dependencies.lifecycleExtensions
 
-    annotationProcessor rootProject.ext.dependencies.roomCompiler
+    kapt rootProject.ext.dependencies.roomCompiler
     compile rootProject.ext.dependencies.room
     compile rootProject.ext.dependencies.roomRxJava
 
@@ -51,11 +54,11 @@ dependencies {
     compile rootProject.ext.dependencies.logginInterceptor
 
     compile rootProject.ext.dependencies.butterKnife
-    annotationProcessor rootProject.ext.dependencies.butterKnifeCompiler
+    kapt rootProject.ext.dependencies.butterKnifeCompiler
 
 
-    annotationProcessor rootProject.ext.dependencies.daggerCompiler
-    annotationProcessor rootProject.ext.dependencies.daggerAndroidCompiler
+    kapt rootProject.ext.dependencies.daggerCompiler
+    kapt rootProject.ext.dependencies.daggerAndroidCompiler
     compile rootProject.ext.dependencies.daggerAndroid
     compile rootProject.ext.dependencies.daggerAndroidSupport
     compile rootProject.ext.dependencies.dagger
