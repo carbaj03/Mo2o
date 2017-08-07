@@ -6,6 +6,7 @@ import android.util.Log
 import com.mo2o.template.Cache
 import com.mo2o.template.R
 import com.mo2o.template.api.TemplateService
+import com.mo2o.template.api.model.Repo
 import com.mo2o.template.api.model.User
 import com.mo2o.template.setToolbar
 import dagger.android.support.AndroidSupportInjection
@@ -26,27 +27,23 @@ class MainFragment : BaseFragment() {
     override fun onCreate() {
         setToolbar(R.string.main)
         AndroidSupportInjection.inject(this)
-        tvCache.text = "${preference.get("name", "name")} , ${preference.get("pass", "pass")}"
-        val user = template.getUser()
 
-        user.enqueue(object : Callback<User> {
-            override fun onResponse(call: Call<User>, response: Response<User>) {
+        tvCache.text = "${preference.get("name", "name")} , ${preference.get("pass", "pass")}"
+
+        val user = template.getRepos()
+        user.enqueue(object : Callback<List<Repo>> {
+            override fun onResponse(call: Call<List<Repo>>, response: Response<List<Repo>>) {
                 if (response.isSuccessful) {
-                    tvApi.text = response.body()?.name
+                    tvApi.text = response.body()?.joinToString { it.fullName }
                 } else {
                     Log.e("Error", "not success")
                 }
             }
 
-            override fun onFailure(call: Call<User>, t: Throwable) {
+            override fun onFailure(call: Call<List<Repo>>, t: Throwable) {
                 // something went completely south (like no internet connection)
                 Log.e("Error", t.message)
             }
         })
-    }
-
-    override fun onAttachFragment(childFragment: Fragment?) {
-        super.onAttachFragment(childFragment)
-
     }
 }

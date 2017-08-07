@@ -19,9 +19,12 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         AndroidInjection.inject(this)
+
         setSupportActionBar(toolbar)
         setContentView(R.layout.activity_login)
+
         btnLogin.setOnClickListener {
             preferences.put("name", tvName.text.toString())
             preferences.put("pass", tvPass.text.toString())
