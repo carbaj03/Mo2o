@@ -2,12 +2,14 @@ package com.mo2o.template.di
 
 import android.app.Application
 import android.content.Context
+import com.mo2o.template.api.ServiceGenerator
 import com.mo2o.template.api.TemplateService
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
+
 
 @Module
 class AppModule {
@@ -25,6 +27,7 @@ class AppModule {
                     .build()
 
     @Provides @Singleton
-    fun providesService(retrofit: Retrofit): TemplateService =
-            retrofit.create(TemplateService::class.java)
+    fun providesService(): TemplateService = ServiceGenerator.createService(TemplateService::class.java, "carbaj03", "a.carbaj0")
+
+
 }

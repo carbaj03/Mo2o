@@ -9,6 +9,10 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface TemplateService {
+
+    @GET("user")
+    fun getUser() : Call<User>
+
     @GET("users/{login}")
     fun getUser(@Path("login") login: String): Call<User>
 
