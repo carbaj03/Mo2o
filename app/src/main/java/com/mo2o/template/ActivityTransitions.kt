@@ -1,7 +1,6 @@
-package com.acv.gym.ui.commons
+package com.mo2o.template
 
 import android.app.Activity
-import com.acv.gym.R
 
 fun Activity.setFadeInOutAnimation()
         = overridePendingTransition(R.anim.fade_in, R.anim.fade_out)

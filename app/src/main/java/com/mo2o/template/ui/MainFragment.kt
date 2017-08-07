@@ -3,6 +3,7 @@ package com.mo2o.template.ui
 
 import android.support.v4.app.Fragment
 import android.util.Log
+import com.mo2o.template.Cache
 import com.mo2o.template.R
 import com.mo2o.template.api.TemplateService
 import com.mo2o.template.api.model.User
@@ -18,25 +19,28 @@ import javax.inject.Inject
 class MainFragment : BaseFragment() {
 
     @Inject lateinit var template: TemplateService
+    @Inject lateinit var preference: Cache
 
     override fun getLayout() = R.layout.fragment_main
 
     override fun onCreate() {
         setToolbar(R.string.main)
         AndroidSupportInjection.inject(this)
+        tvCache.text = "${preference.get("name", "name")} , ${preference.get("pass", "pass")}"
         val user = template.getUser()
+
         user.enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 if (response.isSuccessful) {
-                    tvText.text = response.body()?.name
+                    tvApi.text = response.body()?.name
                 } else {
-                    // error response, no access to resource?
+                    Log.e("Error", "not success")
                 }
             }
 
             override fun onFailure(call: Call<User>, t: Throwable) {
                 // something went completely south (like no internet connection)
-                Log.d("Error", t.message)
+                Log.e("Error", t.message)
             }
         })
     }

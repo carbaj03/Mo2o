@@ -1,13 +1,14 @@
 package com.mo2o.template.di
 
+import com.mo2o.template.ui.LoginActivity
 import com.mo2o.template.ui.MainActivity
 import dagger.Module
 import dagger.Provides
 
 
 @Module
-class MainActivityModule {
+class LoginActivityModule {
     @Provides
-    fun provideMainView(mainActivity: MainActivity) : MainActivity = mainActivity
+    fun provideLoginView(loginActivity: LoginActivity) : LoginActivity = loginActivity
 
 }

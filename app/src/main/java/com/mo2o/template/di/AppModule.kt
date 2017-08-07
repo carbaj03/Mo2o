@@ -2,6 +2,8 @@ package com.mo2o.template.di
 
 import android.app.Application
 import android.content.Context
+import com.mo2o.template.Cache
+import com.mo2o.template.SharedPreferencesCache
 import com.mo2o.template.api.ServiceGenerator
 import com.mo2o.template.api.TemplateService
 import dagger.Module
@@ -27,7 +29,13 @@ class AppModule {
                     .build()
 
     @Provides @Singleton
-    fun providesService(): TemplateService = ServiceGenerator.createService(TemplateService::class.java, "carbaj03", "a.carbaj0")
+    fun providesService(cache: Cache): TemplateService =
+            ServiceGenerator.createService(
+                    TemplateService::class.java,
+                    cache.get("name", ""),
+                    cache.get("pass", ""))
 
+    @Singleton @Provides
+    fun provideCache(context: Context): Cache = SharedPreferencesCache(context)
 
 }

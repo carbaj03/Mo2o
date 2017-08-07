@@ -1,4 +1,4 @@
-package com.acv.gym.data.db.cache
+package com.mo2o.template
 
 interface Cache {
     fun <T> get(name: String, default: T): T

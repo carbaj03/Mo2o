@@ -1,4 +1,4 @@
-package com.acv.gym.data.db.cache
+package com.mo2o.template
 
 import android.content.Context
 import android.content.SharedPreferences
