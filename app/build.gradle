@@ -56,6 +56,9 @@ dependencies {
     compile rootProject.ext.dependencies.butterKnife
     kapt rootProject.ext.dependencies.butterKnifeCompiler
 
+    compile rootProject.ext.dependencies.ankoSdk15
+    compile rootProject.ext.dependencies.ankoSupportV4
+    compile rootProject.ext.dependencies.ankoCompatV7
 
     kapt rootProject.ext.dependencies.daggerCompiler
     kapt rootProject.ext.dependencies.daggerAndroidCompiler

@@ -2,7 +2,7 @@
 
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary" >@color/primary</item>
+        <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/primary_dark</item>
         <item name="android:windowBackground">@android:color/white</item>
@@ -25,4 +25,16 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+
+    <style name="Grid">
+        <item name="android:layout_margin">1dp</item>
+        <item name="android:minHeight">120dp</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="Item">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+    </style>
 </resources>

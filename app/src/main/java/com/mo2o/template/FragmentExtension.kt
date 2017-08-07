@@ -3,6 +3,7 @@ package com.mo2o.template
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.toolbar.*
 
 inline fun <reified T : Fragment> create(args: List<Pair<String, Command>> = listOf()): T {
@@ -30,3 +31,5 @@ fun AppCompatActivity.setToolbar(title: Int) {
     supportActionBar?.title = ""
     tvTitle.text = getString(title)
 }
+
+fun Fragment.gridLayoutManager(cels: Int = 2) = GridLayoutManager(context, cels)

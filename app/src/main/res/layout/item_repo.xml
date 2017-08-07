@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Grid"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:stateListAnimator="@animator/elevator">
+
+    <TextView
+        android:id="@+id/tvName"
+        style="@style/Item"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        tools:text="Sets" />
+
+    <TextView
+        android:id="@+id/tvLanguaje"
+        style="@style/Item"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="bottom"
+        tools:text="Sets" />
+
+    <TextView
+        android:id="@+id/tvUpdated"
+        style="@style/Item"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="bottom|right"
+        tools:text="Name" />
+
+</FrameLayout>
