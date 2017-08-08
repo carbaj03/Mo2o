@@ -15,8 +15,6 @@
 
     <style name="Toolbar">
         <item name="android:minHeight">?attr/actionBarSize</item>
-        <item name="contentInsetLeft">0dp</item>
-        <item name="contentInsetStart">0dp</item>
     </style>
 
     <style name="Toolbar.Title">

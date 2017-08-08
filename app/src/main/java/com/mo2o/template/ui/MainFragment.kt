@@ -7,8 +7,10 @@ import com.mo2o.template.*
 import com.mo2o.template.api.TemplateService
 import com.mo2o.template.api.model.Repo
 import dagger.android.support.AndroidSupportInjection
+import kategory.Either
 import kotlinx.android.synthetic.main.fragment_list.*
 import org.jetbrains.anko.support.v4.toast
+import retrofit2.Response
 import javax.inject.Inject
 
 class MainFragment : BaseFragment() {
@@ -24,13 +26,26 @@ class MainFragment : BaseFragment() {
         AndroidSupportInjection.inject(this)
 
         Future {
-            template.getRepos().execute()
+            try {
+                Either.Right(template.getRepos().execute())
+            } catch (e: Exception) {
+                Either.Left(GenericError.ServerError)
+            }
         }.onComplete {
-            it.isSuccessful
-                    .apply { show(it.body()!!) }
-                    .also { Log.e("Error", "not success") }
+            when (it) {
+                is Either.Right -> onSuccess(it.b)
+                is Either.Left -> onError()
+            }
         }
     }
+
+    private fun onError() = Log.e("Error", "not success")
+
+
+    private fun onSuccess(response: Response<List<Repo>>) =
+            response.isSuccessful
+                    .apply { show(response.body()!!) }
+                    .also { Log.e("Error", "not success") }
 
     fun show(repos: List<Repo>) = with(rvItems) {
         layoutManager = linearLayoutManager()
