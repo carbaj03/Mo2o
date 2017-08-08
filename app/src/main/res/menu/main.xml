@@ -5,21 +5,28 @@
     <item
         android:id="@+id/bndOverview"
         android:enabled="true"
+        android:icon="@drawable/ic_home"
         android:title="Overview"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/bndRepositories"
         android:enabled="true"
+        android:icon="@drawable/ic_storage_black_24dp"
+        android:iconTint="@color/primary_text"
         android:title="Repositories"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/bndStars"
         android:enabled="true"
+        android:icon="@drawable/ic_star_black_24dp"
+        android:iconTint="@color/accent"
         android:title="Stars"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/bndFollowing"
         android:enabled="true"
+        android:icon="@drawable/ic_group_black_24dp"
+        android:iconTint="@color/primary_light_text"
         android:title="Following"
         app:showAsAction="ifRoom" />
 
