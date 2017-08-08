@@ -72,6 +72,9 @@ dependencies {
     testCompile rootProject.ext.testDependencies.roomTest
 
     compile rootProject.ext.dependencies.glide
+
+    compile rootProject.ext.dependencies.kategory
+
     compile 'com.google.code.gson:gson:2.8.0'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
