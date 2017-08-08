@@ -3,18 +3,12 @@ package com.mo2o.template.ui
 
 import android.support.v4.content.ContextCompat
 import android.util.Log
-import com.mo2o.template.Cache
-import com.mo2o.template.R
+import com.mo2o.template.*
 import com.mo2o.template.api.TemplateService
 import com.mo2o.template.api.model.Repo
-import com.mo2o.template.linearLayoutManager
-import com.mo2o.template.setToolbar
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_list.*
 import org.jetbrains.anko.support.v4.toast
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 
 class MainFragment : BaseFragment() {
@@ -29,16 +23,13 @@ class MainFragment : BaseFragment() {
         setToolbar(R.string.main)
         AndroidSupportInjection.inject(this)
 
-        val user = template.getRepos()
-        user.enqueue(object : Callback<List<Repo>> {
-            override fun onResponse(call: Call<List<Repo>>, response: Response<List<Repo>>) {
-                response.isSuccessful.apply { show(response.body()!!) }.also { Log.e("Error", "not success") }
-            }
-
-            override fun onFailure(call: Call<List<Repo>>, t: Throwable) {
-                Log.e("Error", t.message)
-            }
-        })
+        Future {
+            template.getRepos().execute()
+        }.onComplete {
+            it.isSuccessful
+                    .apply { show(it.body()!!) }
+                    .also { Log.e("Error", "not success") }
+        }
     }
 
     fun show(repos: List<Repo>) = with(rvItems) {
