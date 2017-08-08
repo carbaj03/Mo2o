@@ -36,7 +36,7 @@ class AppModule {
     fun providesService(cache: Cache): TemplateService =
             ServiceGenerator.createService(
                     TemplateService::class.java,
-                    cache.get("name", ""),
+                    cache.get("login", ""),
                     cache.get("pass", ""))
 
     @Singleton @Provides
@@ -44,7 +44,9 @@ class AppModule {
 
     @Provides
     @Singleton
+    fun provideGlide(context: Context): RequestManager = Glide.with(context)
+
+    @Provides
+    @Singleton
     fun provideImageLoader(context: Context): ImageLoader = GlideLoader(Glide.with(context))
-
-
 }

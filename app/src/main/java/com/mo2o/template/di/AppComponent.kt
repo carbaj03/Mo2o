@@ -1,14 +1,12 @@
 package com.mo2o.template.di
 
 import android.app.Application
-
 import com.mo2o.template.TemplateApp
-
-import javax.inject.Singleton
-
+import com.mo2o.template.ui.ImageLoader
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
+import javax.inject.Singleton
 
 @Singleton
 @Component(modules = arrayOf(
@@ -24,4 +22,6 @@ interface AppComponent {
     }
 
     fun inject(app: TemplateApp)
+
+    fun getImageLoader(): ImageLoader
 }

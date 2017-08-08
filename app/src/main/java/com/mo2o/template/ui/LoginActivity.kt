@@ -26,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         btnLogin.setOnClickListener {
-            preferences.put("name", tvName.text.toString())
+            preferences.put("login", tvName.text.toString())
             preferences.put("pass", tvPass.text.toString())
             load<MainActivity>()
         }

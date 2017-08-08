@@ -22,14 +22,15 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         setContentView(R.layout.activity_main)
 
         loadFragment<OverviewFragment>()
-        bnd.setOnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                OVERVIEW -> Action { loadFragment<OverviewFragment>() }
-                STARS -> Action { loadFragment<StarredFragment>() }
-                REPOSITORIES -> Action { loadFragment<MainFragment>() }
-                FOLLOWING -> Action { }
+        bnd.setOnNavigationItemSelectedListener {
+            Action {
+                when (it.itemId) {
+                    OVERVIEW -> Action { loadFragment<OverviewFragment>() }
+                    STARS -> Action { loadFragment<StarredFragment>() }
+                    REPOSITORIES -> Action { loadFragment<MainFragment>() }
+                    FOLLOWING -> Action { loadFragment<FollowingFragment>() }
+                }
             }
-            true
         }
     }
 

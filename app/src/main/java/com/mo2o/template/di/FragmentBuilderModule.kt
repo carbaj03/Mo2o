@@ -1,5 +1,6 @@
 package com.mo2o.template.di
 
+import com.mo2o.template.ui.FollowingFragment
 import com.mo2o.template.ui.MainFragment
 import com.mo2o.template.ui.OverviewFragment
 import com.mo2o.template.ui.StarredFragment
@@ -17,4 +18,8 @@ abstract class FragmentBuilderModule {
 
     @ContributesAndroidInjector
     abstract fun contributeStarredFragment(): StarredFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeFollowingFragment(): FollowingFragment
+
 }

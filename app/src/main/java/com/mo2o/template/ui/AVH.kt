@@ -3,11 +3,13 @@ package com.mo2o.template.ui
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import com.mo2o.template.api.model.Follow
 import com.mo2o.template.api.model.Repo
 import com.mo2o.template.inflate
 
 typealias RepoAdapter = AVH<RepoViewHolder, Repo>
 typealias StarredAdapter = AVH<RepoViewHolder, Repo>
+typealias FollowingAdapter = AVH<FollowViewHolder, Follow>
 
 abstract class ViewHolder<in M>(view: View) : RecyclerView.ViewHolder(view) {
     abstract fun bind(model: M)
