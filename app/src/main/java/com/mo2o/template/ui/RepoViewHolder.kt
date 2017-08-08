@@ -9,20 +9,20 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class RepoViewHolder(view: View) : ViewHolder<Repo>(view) {
-    var tvName = view.find<TextView>(R.id.tvName)
+    var tvName = view.find<TextView>(R.id.tvNameRepo)
     var tvDescription = view.find<TextView>(R.id.tvDescription)
     var tvLanguage = view.find<TextView>(R.id.tvLanguage)
     var tvForks = view.find<TextView>(R.id.tvForks)
     var tvStars = view.find<TextView>(R.id.tvStars)
     var tvUpdated = view.find<TextView>(R.id.tvUpdated)
 
-    override fun bind(repo: Repo) {
-        tvName.text = repo.name
-        tvUpdated.text = """Updated on ${repo.updated.format()}"""
-        tvDescription.text = repo.description
-        tvStars.text = repo.stars.toString()
-        tvForks.text = repo.forks.toString()
-        tvLanguage.text = repo.language
+    override fun bind(repo: Repo) = with(repo) {
+        tvName.text = name
+        tvUpdated.text = """Updated on ${updated.format()}"""
+        tvDescription.text = description
+        tvStars.text = stars.toString()
+        tvForks.text = forks.toString()
+        tvLanguage.text = language
     }
 
     fun String.format() : String {

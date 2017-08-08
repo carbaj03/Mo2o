@@ -5,6 +5,9 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
+import android.widget.ImageView
+import com.bumptech.glide.Glide
+import com.mo2o.template.ui.GlideLoader
 import kotlinx.android.synthetic.main.toolbar.*
 
 inline fun <reified T : Fragment> create(args: List<Pair<String, Command>> = listOf()): T {

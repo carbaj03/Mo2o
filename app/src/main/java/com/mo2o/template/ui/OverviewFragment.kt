@@ -2,13 +2,9 @@ package com.mo2o.template.ui
 
 
 import android.util.Log
-import com.bumptech.glide.Glide
-import com.mo2o.template.Future
-import com.mo2o.template.GenericError
-import com.mo2o.template.R
+import com.mo2o.template.*
 import com.mo2o.template.api.TemplateService
 import com.mo2o.template.api.model.User
-import com.mo2o.template.setToolbar
 import dagger.android.support.AndroidSupportInjection
 import kategory.Either
 import kotlinx.android.synthetic.main.fragment_overview.*
@@ -17,7 +13,6 @@ import javax.inject.Inject
 
 class OverviewFragment : BaseFragment() {
     @Inject lateinit var template: TemplateService
-    @Inject lateinit var loader: ImageLoader
 
     override fun getLayout() = R.layout.fragment_overview
 
@@ -41,14 +36,13 @@ class OverviewFragment : BaseFragment() {
 
     private fun onError() = Log.e("Error", "not success")
 
-
     private fun onSuccess(response: Response<User>) =
             response.isSuccessful
                     .apply { show(response.body()!!) }
                     .also { Log.e("Error", "not success") }
 
     fun show(user: User) = with(user) {
-        loader.loadCircle(user.avatarUrl, ivAvatar)
+        ivAvatar.loadCircle(user.avatarUrl)
         tvEmail.text = email
         tvFullName.text = name
         tvAlias.text = login

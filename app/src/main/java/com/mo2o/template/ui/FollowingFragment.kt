@@ -8,6 +8,7 @@ import com.mo2o.template.api.TemplateService
 import com.mo2o.template.api.model.Follow
 import dagger.android.support.AndroidSupportInjection
 import kategory.Either
+import kategory.Reader
 import kotlinx.android.synthetic.main.fragment_list.*
 import org.jetbrains.anko.support.v4.toast
 import retrofit2.Response
@@ -21,7 +22,6 @@ class FollowingFragment : BaseFragment() {
     override fun onCreate() {
         setToolbar(R.string.main)
         AndroidSupportInjection.inject(this)
-
         Future {
             try {
                 Either.Right(template.getFollowing().execute())

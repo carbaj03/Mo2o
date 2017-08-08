@@ -41,12 +41,4 @@ class AppModule {
 
     @Singleton @Provides
     fun provideCache(context: Context): Cache = SharedPreferencesCache(context)
-
-    @Provides
-    @Singleton
-    fun provideGlide(context: Context): RequestManager = Glide.with(context)
-
-    @Provides
-    @Singleton
-    fun provideImageLoader(context: Context): ImageLoader = GlideLoader(Glide.with(context))
 }

@@ -5,6 +5,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.mo2o.template.R
 import com.mo2o.template.api.model.Follow
+import com.mo2o.template.load
 import org.jetbrains.anko.find
 
 class FollowViewHolder(view: View) : ViewHolder<Follow>(view) {
@@ -13,6 +14,6 @@ class FollowViewHolder(view: View) : ViewHolder<Follow>(view) {
 
     override fun bind(follow: Follow) = with(follow) {
         tvLogin.text = login
-//        load.load(avatarUrl, avatar)
+        avatar.load(follow.avatarUrl)
     }
 }

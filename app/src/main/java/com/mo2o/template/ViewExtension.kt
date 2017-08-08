@@ -2,6 +2,9 @@ package com.mo2o.template
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import com.bumptech.glide.Glide
+import com.mo2o.template.ui.GlideLoader
 
 
 const val HOME = android.R.id.home
@@ -16,3 +19,6 @@ fun Action(f: () -> Unit): Boolean {
     f()
     return true
 }
+
+fun ImageView.load(url: String) { GlideLoader(Glide.with(context)).load(url, this) }
+fun ImageView.loadCircle(url: String) { GlideLoader(Glide.with(context)).loadCircle(url, this) }
