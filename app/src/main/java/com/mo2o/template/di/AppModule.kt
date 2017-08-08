@@ -2,10 +2,14 @@ package com.mo2o.template.di
 
 import android.app.Application
 import android.content.Context
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.mo2o.template.Cache
 import com.mo2o.template.SharedPreferencesCache
 import com.mo2o.template.api.ServiceGenerator
 import com.mo2o.template.api.TemplateService
+import com.mo2o.template.ui.GlideLoader
+import com.mo2o.template.ui.ImageLoader
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -37,5 +41,10 @@ class AppModule {
 
     @Singleton @Provides
     fun provideCache(context: Context): Cache = SharedPreferencesCache(context)
+
+    @Provides
+    @Singleton
+    fun provideImageLoader(context: Context): ImageLoader = GlideLoader(Glide.with(context))
+
 
 }

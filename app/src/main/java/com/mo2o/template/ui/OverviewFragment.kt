@@ -17,6 +17,7 @@ import javax.inject.Inject
 
 class OverviewFragment : BaseFragment() {
     @Inject lateinit var template: TemplateService
+    @Inject lateinit var loader: ImageLoader
 
     override fun getLayout() = R.layout.fragment_overview
 
@@ -47,7 +48,7 @@ class OverviewFragment : BaseFragment() {
                     .also { Log.e("Error", "not success") }
 
     fun show(user: User) = with(user) {
-        Glide.with(context).load(user.avatarUrl).into(ivAvatar)
+        loader.loadCircle(user.avatarUrl, ivAvatar)
         tvEmail.text = email
         tvFullName.text = name
         tvAlias.text = login
