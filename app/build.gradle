@@ -60,6 +60,8 @@ dependencies {
     compile rootProject.ext.dependencies.ankoSupportV4
     compile rootProject.ext.dependencies.ankoCompatV7
 
+    compile rootProject.ext.dependencies.coroutinesAndroid
+
     kapt rootProject.ext.dependencies.daggerCompiler
     kapt rootProject.ext.dependencies.daggerAndroidCompiler
     compile rootProject.ext.dependencies.daggerAndroid
