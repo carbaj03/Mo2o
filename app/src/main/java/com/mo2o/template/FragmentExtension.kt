@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.toolbar.*
 
 inline fun <reified T : Fragment> create(args: List<Pair<String, Command>> = listOf()): T {
@@ -33,3 +34,4 @@ fun AppCompatActivity.setToolbar(title: Int) {
 }
 
 fun Fragment.gridLayoutManager(cels: Int = 2) = GridLayoutManager(context, cels)
+fun Fragment.linearLayoutManager() = LinearLayoutManager(context)

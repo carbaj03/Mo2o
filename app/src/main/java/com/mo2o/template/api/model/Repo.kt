@@ -8,5 +8,8 @@ data class Repo(
         @SerializedName("full_name") val fullName: String,
         @SerializedName("description") val description: String,
         @SerializedName("owner") val owner: Owner,
-        @SerializedName("stargazers_count") val stars: Int
+        @SerializedName("stargazers_count") val stars: Int,
+        @SerializedName("forks_count") val forks: Int,
+        @SerializedName("updated_at") val updated: String,
+        @SerializedName("language") val language: String
 )

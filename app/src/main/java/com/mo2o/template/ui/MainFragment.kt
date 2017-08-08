@@ -1,17 +1,16 @@
 package com.mo2o.template.ui
 
 
-import android.support.v7.widget.RecyclerView
+import android.support.v4.content.ContextCompat
 import android.util.Log
 import com.mo2o.template.Cache
 import com.mo2o.template.R
 import com.mo2o.template.api.TemplateService
 import com.mo2o.template.api.model.Repo
-import com.mo2o.template.gridLayoutManager
+import com.mo2o.template.linearLayoutManager
 import com.mo2o.template.setToolbar
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_list.*
-import kotlinx.android.synthetic.main.fragment_main.*
 import org.jetbrains.anko.support.v4.toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -33,20 +32,19 @@ class MainFragment : BaseFragment() {
         val user = template.getRepos()
         user.enqueue(object : Callback<List<Repo>> {
             override fun onResponse(call: Call<List<Repo>>, response: Response<List<Repo>>) {
-                if (!response.isSuccessful.apply { show(response.body()!!) }) {
-                    Log.e("Error", "not success")
-                }
+                response.isSuccessful.apply { show(response.body()!!) }.also { Log.e("Error", "not success") }
             }
 
             override fun onFailure(call: Call<List<Repo>>, t: Throwable) {
-                // something went completely south (like no internet connection)
                 Log.e("Error", t.message)
             }
         })
     }
 
     fun show(repos: List<Repo>) = with(rvItems) {
-        layoutManager = gridLayoutManager()
+        layoutManager = linearLayoutManager()
+        val divider = DividerDecoration(ContextCompat.getColor(context, R.color.primary), 1f)
+        addItemDecoration(divider)
         sessionAdapter = RepoAdapter(
                 items = repos,
                 listener = { toast(it.fullName) },
