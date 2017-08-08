@@ -21,10 +21,11 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         setSupportActionBar(toolbar)
         setContentView(R.layout.activity_main)
 
+        loadFragment<OverviewFragment>()
         bnd.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 OVERVIEW -> Action { loadFragment<OverviewFragment>() }
-                STARS -> Action { }
+                STARS -> Action { loadFragment<StarredFragment>() }
                 REPOSITORIES -> Action { loadFragment<MainFragment>() }
                 FOLLOWING -> Action { }
             }

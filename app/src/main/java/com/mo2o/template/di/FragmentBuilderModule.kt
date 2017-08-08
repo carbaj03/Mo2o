@@ -2,6 +2,7 @@ package com.mo2o.template.di
 
 import com.mo2o.template.ui.MainFragment
 import com.mo2o.template.ui.OverviewFragment
+import com.mo2o.template.ui.StarredFragment
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -14,4 +15,6 @@ abstract class FragmentBuilderModule {
     @ContributesAndroidInjector
     abstract fun contributeOverviewFragment(): OverviewFragment
 
+    @ContributesAndroidInjector
+    abstract fun contributeStarredFragment(): StarredFragment
 }

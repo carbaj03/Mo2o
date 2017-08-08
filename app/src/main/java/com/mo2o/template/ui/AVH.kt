@@ -7,6 +7,7 @@ import com.mo2o.template.api.model.Repo
 import com.mo2o.template.inflate
 
 typealias RepoAdapter = AVH<RepoViewHolder, Repo>
+typealias StarredAdapter = AVH<RepoViewHolder, Repo>
 
 abstract class ViewHolder<in M>(view: View) : RecyclerView.ViewHolder(view) {
     abstract fun bind(model: M)
