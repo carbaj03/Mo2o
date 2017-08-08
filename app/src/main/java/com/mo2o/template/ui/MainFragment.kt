@@ -15,9 +15,6 @@ import javax.inject.Inject
 
 class MainFragment : BaseFragment() {
     @Inject lateinit var template: TemplateService
-    @Inject lateinit var preference: Cache
-
-    lateinit var sessionAdapter: RepoAdapter
 
     override fun getLayout() = R.layout.fragment_list
 
@@ -41,7 +38,6 @@ class MainFragment : BaseFragment() {
 
     private fun onError() = Log.e("Error", "not success")
 
-
     private fun onSuccess(response: Response<List<Repo>>) =
             response.isSuccessful
                     .apply { show(response.body()!!) }
@@ -51,12 +47,11 @@ class MainFragment : BaseFragment() {
         layoutManager = linearLayoutManager()
         val divider = DividerDecoration(ContextCompat.getColor(context, R.color.primary), 1f)
         addItemDecoration(divider)
-        sessionAdapter = RepoAdapter(
+        adapter = RepoAdapter(
                 items = repos,
                 listener = { toast(it.fullName) },
                 holder = ::RepoViewHolder,
                 layout = R.layout.item_repo)
-        adapter = sessionAdapter
     }
 
 }

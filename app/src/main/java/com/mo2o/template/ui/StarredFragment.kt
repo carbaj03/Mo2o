@@ -16,8 +16,6 @@ import javax.inject.Inject
 class StarredFragment: BaseFragment() {
     @Inject lateinit var template: TemplateService
 
-    lateinit var sessionAdapter: RepoAdapter
-
     override fun getLayout() = R.layout.fragment_list
 
     override fun onCreate() {
@@ -50,12 +48,11 @@ class StarredFragment: BaseFragment() {
         layoutManager = linearLayoutManager()
         val divider = DividerDecoration(ContextCompat.getColor(context, R.color.primary), 1f)
         addItemDecoration(divider)
-        sessionAdapter = RepoAdapter(
+        adapter = RepoAdapter(
                 items = repos,
                 listener = { toast(it.fullName) },
                 holder = ::RepoViewHolder,
                 layout = R.layout.item_repo)
-        adapter = sessionAdapter
     }
 
 }
