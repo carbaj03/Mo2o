@@ -1,25 +1,24 @@
 package com.mo2o.template.ui
 
 
-import android.support.v4.content.ContextCompat
 import android.util.Log
-import com.mo2o.template.*
+import com.bumptech.glide.Glide
+import com.mo2o.template.Future
+import com.mo2o.template.GenericError
+import com.mo2o.template.R
 import com.mo2o.template.api.TemplateService
-import com.mo2o.template.api.model.Repo
+import com.mo2o.template.api.model.User
+import com.mo2o.template.setToolbar
 import dagger.android.support.AndroidSupportInjection
 import kategory.Either
-import kotlinx.android.synthetic.main.fragment_list.*
-import org.jetbrains.anko.support.v4.toast
+import kotlinx.android.synthetic.main.fragment_overview.*
 import retrofit2.Response
 import javax.inject.Inject
 
-class OverviewFragment: BaseFragment() {
+class OverviewFragment : BaseFragment() {
     @Inject lateinit var template: TemplateService
-    @Inject lateinit var preference: Cache
 
-    lateinit var sessionAdapter: RepoAdapter
-
-    override fun getLayout() = R.layout.fragment_list
+    override fun getLayout() = R.layout.fragment_overview
 
     override fun onCreate() {
         setToolbar(R.string.main)
@@ -27,7 +26,7 @@ class OverviewFragment: BaseFragment() {
 
         Future {
             try {
-                Either.Right(template.getRepos().execute())
+                Either.Right(template.getUser().execute())
             } catch (e: Exception) {
                 Either.Left(GenericError.ServerError)
             }
@@ -42,21 +41,16 @@ class OverviewFragment: BaseFragment() {
     private fun onError() = Log.e("Error", "not success")
 
 
-    private fun onSuccess(response: Response<List<Repo>>) =
+    private fun onSuccess(response: Response<User>) =
             response.isSuccessful
                     .apply { show(response.body()!!) }
                     .also { Log.e("Error", "not success") }
 
-    fun show(repos: List<Repo>) = with(rvItems) {
-        layoutManager = linearLayoutManager()
-        val divider = DividerDecoration(ContextCompat.getColor(context, R.color.primary), 1f)
-        addItemDecoration(divider)
-        sessionAdapter = RepoAdapter(
-                items = repos,
-                listener = { toast(it.fullName) },
-                holder = ::RepoViewHolder,
-                layout = R.layout.item_repo)
-        adapter = sessionAdapter
+    fun show(user: User) = with(user) {
+        Glide.with(context).load(user.avatarUrl).into(ivAvatar)
+        tvEmail.text = email
+        tvFullName.text = name
+        tvAlias.text = login
     }
 
 }

@@ -23,16 +23,14 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
         bnd.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                OVERVIEW -> Action { }
+                OVERVIEW -> Action { loadFragment<OverviewFragment>() }
                 STARS -> Action { }
-                REPOSITORIES -> Action { showUser() }
+                REPOSITORIES -> Action { loadFragment<MainFragment>() }
                 FOLLOWING -> Action { }
             }
             true
         }
     }
-
-    private fun showUser() = loadFragment<MainFragment>()
 
     override fun supportFragmentInjector() = dispatchingAndroidInjector
 }
