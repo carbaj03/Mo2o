@@ -23,11 +23,11 @@ allprojects {
                 recyclerView         : "com.android.support:recyclerview-v7:$supportLibraryVersion",
                 design               : "com.android.support:design:$supportLibraryVersion",
                 vector               : "com.android.support:support-vector-drawable:$supportLibraryVersion",
-                constraint           : "com.android.support.constraint:constraint-layout:$constraintLibraryVersion",
-                room                 : "android.arch.persistence.room:runtime:$arch_version",
+
                 lifecycle            : "android.arch.lifecycle:runtime:$arch_version",
                 lifecycleExtensions  : "android.arch.lifecycle:extensions:$arch_version",
                 lifecycleCompiler    : "android.arch.lifecycle:compiler:$arch_version",
+
                 room                 : "android.arch.persistence.room:runtime:$arch_version",
                 roomCompiler         : "android.arch.persistence.room:compiler:$arch_version",
                 roomRxJava           : "android.arch.persistence.room:rxjava2:$arch_version",

@@ -38,7 +38,6 @@ dependencies {
     compile rootProject.ext.dependencies.recyclerView
     compile rootProject.ext.dependencies.design
     compile rootProject.ext.dependencies.vector
-    compile rootProject.ext.dependencies.constraint
 
     kapt rootProject.ext.dependencies.lifecycleCompiler
     compile rootProject.ext.dependencies.lifecycle
