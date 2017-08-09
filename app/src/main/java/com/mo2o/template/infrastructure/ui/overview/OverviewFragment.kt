@@ -22,7 +22,6 @@ class OverviewFragment : BaseFragment() {
     override fun getLayout() = R.layout.fragment_overview
 
     override fun onCreate() {
-        setToolbar(R.string.main)
         AndroidSupportInjection.inject(this)
 
         Future {

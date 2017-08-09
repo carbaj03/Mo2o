@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import com.mo2o.template.Command
 import com.mo2o.template.Id
-import com.mo2o.template.infrastructure.ui.common.setSlideRightAnimation
+import com.mo2o.template.infrastructure.ui.common.setFadeInOutAnimation
 
 /**
  * Created by alejandro on 7/08/17.
@@ -12,7 +12,7 @@ import com.mo2o.template.infrastructure.ui.common.setSlideRightAnimation
 inline fun <reified T : Activity> Activity.load(pairs: List<Pair<String, Command>> = listOf()) {
     goToActivity<T>(pairs)
     finish()
-    setSlideRightAnimation()
+    setFadeInOutAnimation()
 }
 
 inline fun <reified T : Activity> Activity.goToActivity(pairs: List<Pair<String, Command>>) {

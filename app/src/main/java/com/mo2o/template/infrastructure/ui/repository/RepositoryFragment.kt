@@ -5,9 +5,11 @@ import android.support.v4.content.ContextCompat
 import android.util.Log
 import com.mo2o.template.Future
 import com.mo2o.template.GenericError
+import com.mo2o.template.Id
 import com.mo2o.template.R
 import com.mo2o.template.infrastructure.api.TemplateService
 import com.mo2o.template.infrastructure.api.model.Repo
+import com.mo2o.template.infrastructure.extension.getArgId
 import com.mo2o.template.infrastructure.extension.linearLayoutManager
 import com.mo2o.template.infrastructure.extension.setToolbar
 import com.mo2o.template.infrastructure.ui.common.BaseFragment
@@ -15,6 +17,7 @@ import com.mo2o.template.infrastructure.ui.common.DividerDecoration
 import com.mo2o.template.infrastructure.ui.common.RepoAdapter
 import dagger.android.support.AndroidSupportInjection
 import kategory.Either
+import kategory.Option
 import kotlinx.android.synthetic.main.fragment_list.*
 import org.jetbrains.anko.support.v4.toast
 import retrofit2.Response
@@ -26,12 +29,15 @@ class RepositoryFragment : BaseFragment() {
     override fun getLayout() = R.layout.fragment_list
 
     override fun onCreate() {
-        setToolbar(R.string.main)
         AndroidSupportInjection.inject(this)
 
         Future {
             try {
-                Either.Right(template.getRepos().execute())
+                val argId = getArgId<Id>()
+                when(argId){
+                    is Option.None -> Either.Right(template.getRepos().execute())
+                    is Option.Some -> Either.Right(template.getRepos(argId.value.value).execute())
+                }
             } catch (e: Exception) {
                 Either.Left(GenericError.ServerError)
             }

@@ -30,7 +30,6 @@ class StarredFragment : BaseFragment() {
     override fun getLayout() = R.layout.fragment_list
 
     override fun onCreate() {
-        setToolbar(R.string.main)
         AndroidSupportInjection.inject(this)
 
         Future {

@@ -8,6 +8,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import com.mo2o.template.Command
 import com.mo2o.template.R
+import com.mo2o.template.infrastructure.ui.common.setFadeInOutAnimation
 import com.mo2o.template.infrastructure.ui.common.setSlideRightAnimation
 import kategory.Option
 import kotlinx.android.synthetic.main.toolbar.*
@@ -27,7 +28,7 @@ fun <T> getFragment(c: Class<T>) = c.newInstance()
 inline fun <reified T : Fragment> AppCompatActivity.loadFragment(args: List<Pair<String, Command>> = listOf()) {
     supportFragmentManager
             .beginTransaction()
-            .setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_left, R.anim.slide_in_right, R.anim.slide_out_right)
+            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
             .replace(R.id.container, create<T>(args), T::class.java.simpleName)
             .commit()
 }
@@ -48,5 +49,5 @@ fun <E : Command> Fragment.getArgId(): Option<E> = arguments?.getSerializable(ex
 inline fun <reified T : Activity> Fragment.load(pairs: List<Pair<String, Command>> = listOf()) = with(activity) {
     goToActivity<T>(pairs)
     finish()
-    setSlideRightAnimation()
+    setFadeInOutAnimation()
 }

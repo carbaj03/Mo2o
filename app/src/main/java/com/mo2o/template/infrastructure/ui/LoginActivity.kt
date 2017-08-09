@@ -17,11 +17,12 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_login)
 
         AndroidInjection.inject(this)
 
         setSupportActionBar(toolbar)
-        setContentView(R.layout.activity_login)
+
         tvName.setText(preferences.get("login", ""))
         tvPass.setText(preferences.get("pass", ""))
 
