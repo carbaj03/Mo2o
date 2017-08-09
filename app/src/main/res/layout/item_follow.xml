@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/ivFollowAvatar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
 
     <TextView
         android:id="@+id/tvLogin"

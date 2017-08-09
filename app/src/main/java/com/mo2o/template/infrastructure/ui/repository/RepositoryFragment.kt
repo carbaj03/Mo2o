@@ -3,14 +3,16 @@ package com.mo2o.template.infrastructure.ui.repository
 
 import android.support.v4.content.ContextCompat
 import android.util.Log
-import com.mo2o.template.*
+import com.mo2o.template.Future
+import com.mo2o.template.GenericError
+import com.mo2o.template.R
 import com.mo2o.template.infrastructure.api.TemplateService
 import com.mo2o.template.infrastructure.api.model.Repo
 import com.mo2o.template.infrastructure.extension.linearLayoutManager
 import com.mo2o.template.infrastructure.extension.setToolbar
 import com.mo2o.template.infrastructure.ui.common.BaseFragment
-import com.mo2o.template.infrastructure.ui.DividerDecoration
-import com.mo2o.template.infrastructure.ui.RepoAdapter
+import com.mo2o.template.infrastructure.ui.common.DividerDecoration
+import com.mo2o.template.infrastructure.ui.common.RepoAdapter
 import dagger.android.support.AndroidSupportInjection
 import kategory.Either
 import kotlinx.android.synthetic.main.fragment_list.*

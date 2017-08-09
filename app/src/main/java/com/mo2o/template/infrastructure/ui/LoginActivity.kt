@@ -20,6 +20,8 @@ class LoginActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
         setContentView(R.layout.activity_login)
+        tvName.setText(preferences.get("login", ""))
+        tvPass.setText(preferences.get("pass", ""))
 
         btnLogin.setOnClickListener {
             preferences.put("login", tvName.text.toString())

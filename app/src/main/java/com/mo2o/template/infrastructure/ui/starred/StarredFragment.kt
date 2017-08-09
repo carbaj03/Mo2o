@@ -3,14 +3,16 @@ package com.mo2o.template.infrastructure.ui.starred
 
 import android.support.v4.content.ContextCompat
 import android.util.Log
-import com.mo2o.template.*
+import com.mo2o.template.Future
+import com.mo2o.template.GenericError
+import com.mo2o.template.R
 import com.mo2o.template.infrastructure.api.TemplateService
 import com.mo2o.template.infrastructure.api.model.Repo
 import com.mo2o.template.infrastructure.extension.linearLayoutManager
 import com.mo2o.template.infrastructure.extension.setToolbar
 import com.mo2o.template.infrastructure.ui.common.BaseFragment
-import com.mo2o.template.infrastructure.ui.DividerDecoration
-import com.mo2o.template.infrastructure.ui.RepoAdapter
+import com.mo2o.template.infrastructure.ui.common.DividerDecoration
+import com.mo2o.template.infrastructure.ui.common.RepoAdapter
 import com.mo2o.template.infrastructure.ui.repository.RepositoryViewHolder
 import dagger.android.support.AndroidSupportInjection
 import kategory.Either
@@ -19,7 +21,7 @@ import org.jetbrains.anko.support.v4.toast
 import retrofit2.Response
 import javax.inject.Inject
 
-class StarredFragment: BaseFragment() {
+class StarredFragment : BaseFragment() {
     @Inject lateinit var template: TemplateService
 
     override fun getLayout() = R.layout.fragment_list
@@ -32,6 +34,7 @@ class StarredFragment: BaseFragment() {
             try {
                 Either.Right(template.getStarred().execute())
             } catch (e: Exception) {
+                e.printStackTrace()
                 Either.Left(GenericError.ServerError)
             }
         }.onComplete {
