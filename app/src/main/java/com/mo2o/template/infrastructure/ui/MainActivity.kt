@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
             Action {
                 when (it.itemId) {
                     OVERVIEW -> Action { loadFragment<OverviewFragment>(listOf(extra to getExtra())) }
-                    STARS -> Action { loadFragment<StarredFragment>() }
+                    STARS -> Action { loadFragment<StarredFragment>(listOf(extra to getExtra())) }
                     REPOSITORIES -> Action { loadFragment<RepositoryFragment>() }
                     FOLLOWING -> Action { loadFragment<FollowingFragment>(listOf(extra to getExtra())) }
                 }

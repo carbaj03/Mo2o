@@ -22,6 +22,9 @@ interface TemplateService {
     @GET("user/starred")
     fun getStarred(): Call<List<Repo>>
 
+    @GET("users/{login}/starred")
+    fun getStarred(@Path("login") login: String): Call<List<Repo>>
+
     @GET("user/following")
     fun getFollowing(): Call<List<Follow>>
 

@@ -5,9 +5,11 @@ import android.support.v4.content.ContextCompat
 import android.util.Log
 import com.mo2o.template.Future
 import com.mo2o.template.GenericError
+import com.mo2o.template.Id
 import com.mo2o.template.R
 import com.mo2o.template.infrastructure.api.TemplateService
 import com.mo2o.template.infrastructure.api.model.Repo
+import com.mo2o.template.infrastructure.extension.getArgId
 import com.mo2o.template.infrastructure.extension.linearLayoutManager
 import com.mo2o.template.infrastructure.extension.setToolbar
 import com.mo2o.template.infrastructure.ui.common.BaseFragment
@@ -16,6 +18,7 @@ import com.mo2o.template.infrastructure.ui.common.RepoAdapter
 import com.mo2o.template.infrastructure.ui.repository.RepositoryViewHolder
 import dagger.android.support.AndroidSupportInjection
 import kategory.Either
+import kategory.Option
 import kotlinx.android.synthetic.main.fragment_list.*
 import org.jetbrains.anko.support.v4.toast
 import retrofit2.Response
@@ -32,9 +35,12 @@ class StarredFragment : BaseFragment() {
 
         Future {
             try {
-                Either.Right(template.getStarred().execute())
+                val argId = getArgId<Id>()
+                when(argId){
+                    is Option.None -> Either.Right(template.getStarred().execute())
+                    is Option.Some -> Either.Right(template.getStarred(argId.value.value).execute())
+                }
             } catch (e: Exception) {
-                e.printStackTrace()
                 Either.Left(GenericError.ServerError)
             }
         }.onComplete {
@@ -46,7 +52,6 @@ class StarredFragment : BaseFragment() {
     }
 
     private fun onError() = Log.e("Error", "not success")
-
 
     private fun onSuccess(response: Response<List<Repo>>) =
             response.isSuccessful
