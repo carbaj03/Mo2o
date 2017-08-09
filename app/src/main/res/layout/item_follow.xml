@@ -4,17 +4,18 @@
     android:id="@+id/itemContainer"
     style="@style/List"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="56dp">
 
     <ImageView
         android:id="@+id/ivFollowAvatar"
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
 
     <TextView
         android:id="@+id/tvLogin"
-        style="@style/Item.Title"
+        style="@style/TextAppearance.AppCompat.Subhead"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="56dp"
         tools:text="Name" />
 </RelativeLayout>

@@ -2,8 +2,10 @@ package com.mo2o.template.infrastructure.ui
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.mo2o.template.Id
 import com.mo2o.template.infrastructure.persistence.Cache
 import com.mo2o.template.R
+import com.mo2o.template.infrastructure.extension.extra
 import com.mo2o.template.infrastructure.extension.load
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_login.*
@@ -26,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
         btnLogin.setOnClickListener {
             preferences.put("login", tvName.text.toString())
             preferences.put("pass", tvPass.text.toString())
-            load<MainActivity>()
+            load<MainActivity>(listOf(extra to Id(tvName.text.toString())))
         }
     }
 }

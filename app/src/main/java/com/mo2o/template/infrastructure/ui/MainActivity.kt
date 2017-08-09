@@ -3,7 +3,7 @@ package com.mo2o.template.infrastructure.ui
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import com.mo2o.template.*
+import com.mo2o.template.R
 import com.mo2o.template.infrastructure.extension.*
 import com.mo2o.template.infrastructure.ui.following.FollowingFragment
 import com.mo2o.template.infrastructure.ui.overview.OverviewFragment
@@ -26,14 +26,14 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         setSupportActionBar(toolbar)
         setContentView(R.layout.activity_main)
 
-        loadFragment<OverviewFragment>()
+        loadFragment<OverviewFragment>(listOf(extra to getExtra()))
         bnd.setOnNavigationItemSelectedListener {
             Action {
                 when (it.itemId) {
-                    OVERVIEW -> Action { loadFragment<OverviewFragment>() }
+                    OVERVIEW -> Action { loadFragment<OverviewFragment>(listOf(extra to getExtra())) }
                     STARS -> Action { loadFragment<StarredFragment>() }
                     REPOSITORIES -> Action { loadFragment<RepositoryFragment>() }
-                    FOLLOWING -> Action { loadFragment<FollowingFragment>() }
+                    FOLLOWING -> Action { loadFragment<FollowingFragment>(listOf(extra to getExtra())) }
                 }
             }
         }

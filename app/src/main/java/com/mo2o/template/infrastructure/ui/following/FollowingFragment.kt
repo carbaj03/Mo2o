@@ -5,18 +5,19 @@ import android.support.v4.content.ContextCompat
 import android.util.Log
 import com.mo2o.template.Future
 import com.mo2o.template.GenericError
+import com.mo2o.template.Id
 import com.mo2o.template.R
 import com.mo2o.template.infrastructure.api.TemplateService
 import com.mo2o.template.infrastructure.api.model.Follow
-import com.mo2o.template.infrastructure.extension.linearLayoutManager
-import com.mo2o.template.infrastructure.extension.setToolbar
+import com.mo2o.template.infrastructure.extension.*
+import com.mo2o.template.infrastructure.ui.MainActivity
 import com.mo2o.template.infrastructure.ui.common.BaseFragment
 import com.mo2o.template.infrastructure.ui.common.DividerDecoration
 import com.mo2o.template.infrastructure.ui.common.FollowingAdapter
 import dagger.android.support.AndroidSupportInjection
 import kategory.Either
+import kategory.Option
 import kotlinx.android.synthetic.main.fragment_list.*
-import org.jetbrains.anko.support.v4.toast
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -30,7 +31,11 @@ class FollowingFragment : BaseFragment() {
         AndroidSupportInjection.inject(this)
         Future {
             try {
-                Either.Right(template.getFollowing().execute())
+                val argId = getArgId<Id>()
+                when(argId){
+                    is Option.None -> Either.Right(template.getFollowing().execute())
+                    is Option.Some -> Either.Right(template.getFollowing(argId.value.value).execute())
+                }
             } catch (e: Exception) {
                 Either.Left(GenericError.ServerError)
             }
@@ -50,12 +55,13 @@ class FollowingFragment : BaseFragment() {
                     .also { Log.e("Error", "not success") }
 
     fun show(following: List<Follow>) = with(rvItems) {
+
         layoutManager = linearLayoutManager()
         val divider = DividerDecoration(ContextCompat.getColor(context, R.color.primary), 1f)
         addItemDecoration(divider)
         adapter = FollowingAdapter(
                 items = following,
-                listener = { toast(it.login) },
+                listener = { load<MainActivity>(listOf(extra to Id(it.login))) },
                 holder = ::FollowViewHolder,
                 layout = R.layout.item_follow)
     }

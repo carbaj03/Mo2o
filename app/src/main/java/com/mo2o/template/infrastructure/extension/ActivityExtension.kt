@@ -3,6 +3,7 @@ package com.mo2o.template.infrastructure.extension
 import android.app.Activity
 import android.content.Intent
 import com.mo2o.template.Command
+import com.mo2o.template.Id
 import com.mo2o.template.infrastructure.ui.common.setSlideRightAnimation
 
 /**
@@ -20,3 +21,4 @@ inline fun <reified T : Activity> Activity.goToActivity(pairs: List<Pair<String,
     startActivity(intent)
 }
 
+fun Activity.getExtra(): Id = intent?.getSerializableExtra(extra)?.let { it as Id } ?: Id("")

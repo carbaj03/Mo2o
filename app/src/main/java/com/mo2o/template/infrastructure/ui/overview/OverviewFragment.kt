@@ -5,11 +5,13 @@ import android.util.Log
 import com.mo2o.template.*
 import com.mo2o.template.infrastructure.api.TemplateService
 import com.mo2o.template.infrastructure.api.model.User
+import com.mo2o.template.infrastructure.extension.getArgId
 import com.mo2o.template.infrastructure.extension.loadCircle
 import com.mo2o.template.infrastructure.extension.setToolbar
 import com.mo2o.template.infrastructure.ui.common.BaseFragment
 import dagger.android.support.AndroidSupportInjection
 import kategory.Either
+import kategory.Option
 import kotlinx.android.synthetic.main.fragment_overview.*
 import retrofit2.Response
 import javax.inject.Inject
@@ -25,7 +27,11 @@ class OverviewFragment : BaseFragment() {
 
         Future {
             try {
-                Either.Right(template.getUser().execute())
+                val argId = getArgId<Id>()
+                when(argId){
+                    is Option.None -> Either.Right(template.getUser().execute())
+                    is Option.Some -> Either.Right(template.getUser(argId.value.value).execute())
+                }
             } catch (e: Exception) {
                 Either.Left(GenericError.ServerError)
             }
