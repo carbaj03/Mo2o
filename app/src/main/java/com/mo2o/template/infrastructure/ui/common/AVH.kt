@@ -7,10 +7,10 @@ import com.mo2o.template.infrastructure.api.model.Follow
 import com.mo2o.template.infrastructure.api.model.Repo
 import com.mo2o.template.infrastructure.extension.inflate
 import com.mo2o.template.infrastructure.ui.following.FollowViewHolder
-import com.mo2o.template.infrastructure.ui.repository.RepositoryViewHolder
+import com.mo2o.template.infrastructure.ui.repository.ContentViewHolder
 
-typealias RepoAdapter = AVH<RepositoryViewHolder, Repo>
-typealias StarredAdapter = AVH<RepositoryViewHolder, Repo>
+typealias RepoAdapter = AVH<ContentViewHolder, Repo>
+typealias StarredAdapter = AVH<ContentViewHolder, Repo>
 typealias FollowingAdapter = AVH<FollowViewHolder, Follow>
 
 abstract class ViewHolder<in M>(view: View) : RecyclerView.ViewHolder(view) {

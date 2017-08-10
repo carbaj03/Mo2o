@@ -11,11 +11,9 @@ import com.mo2o.template.infrastructure.api.TemplateService
 import com.mo2o.template.infrastructure.api.model.Repo
 import com.mo2o.template.infrastructure.extension.getArgId
 import com.mo2o.template.infrastructure.extension.linearLayoutManager
-import com.mo2o.template.infrastructure.extension.setToolbar
 import com.mo2o.template.infrastructure.ui.common.BaseFragment
 import com.mo2o.template.infrastructure.ui.common.DividerDecoration
 import com.mo2o.template.infrastructure.ui.common.RepoAdapter
-import com.mo2o.template.infrastructure.ui.repository.RepositoryViewHolder
 import dagger.android.support.AndroidSupportInjection
 import kategory.Either
 import kategory.Option

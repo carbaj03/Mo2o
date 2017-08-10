@@ -1,7 +1,7 @@
 package com.mo2o.template.infrastructure.di
 
 import com.mo2o.template.infrastructure.ui.following.FollowingFragment
-import com.mo2o.template.infrastructure.ui.repository.RepositoryFragment
+import com.mo2o.template.infrastructure.ui.content.RepositoryFragment
 import com.mo2o.template.infrastructure.ui.overview.OverviewFragment
 import com.mo2o.template.infrastructure.ui.starred.StarredFragment
 

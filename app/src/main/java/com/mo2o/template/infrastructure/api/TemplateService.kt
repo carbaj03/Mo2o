@@ -1,6 +1,7 @@
 package com.mo2o.template.infrastructure.api
 
 
+import com.mo2o.template.infrastructure.api.model.File
 import com.mo2o.template.infrastructure.api.model.Follow
 import com.mo2o.template.infrastructure.api.model.Repo
 import com.mo2o.template.infrastructure.api.model.User
@@ -33,5 +34,10 @@ interface TemplateService {
 
     @GET("users/{login}/following")
     fun getFollowing(@Path("login") login: String): Call<List<Follow>>
+
+    @GET("repos/{login/{repo}/contents/{path}")
+    fun getContent(@Path("login") login: String,
+                   @Path("repo") repo: String,
+                   @Path("path") path: String) : Call<List<File>>
 
 }

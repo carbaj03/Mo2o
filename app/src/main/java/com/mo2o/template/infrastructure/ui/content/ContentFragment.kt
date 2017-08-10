@@ -1,4 +1,4 @@
-package com.mo2o.template.infrastructure.ui.repository
+package com.mo2o.template.infrastructure.ui.content
 
 
 import android.support.v4.content.ContextCompat
@@ -14,6 +14,7 @@ import com.mo2o.template.infrastructure.extension.linearLayoutManager
 import com.mo2o.template.infrastructure.ui.common.BaseFragment
 import com.mo2o.template.infrastructure.ui.common.DividerDecoration
 import com.mo2o.template.infrastructure.ui.common.RepoAdapter
+import com.mo2o.template.infrastructure.ui.repository.RepositoryViewHolder
 import dagger.android.support.AndroidSupportInjection
 import kategory.Either
 import kategory.Option
@@ -22,7 +23,7 @@ import org.jetbrains.anko.support.v4.toast
 import retrofit2.Response
 import javax.inject.Inject
 
-class RepositoryFragment : BaseFragment() {
+class ContentFragment : BaseFragment() {
     @Inject lateinit var template: TemplateService
 
     override fun getLayout() = R.layout.fragment_list
@@ -38,7 +39,7 @@ class RepositoryFragment : BaseFragment() {
     }
 
     fun getRepositories(id: Option<Id>) = when (id) {
-        is Option.None -> Either.Right(template.getRepos().execute())
+        is Option.None -> Either.Right(template.getContent().execute())
         is Option.Some -> Either.Right(template.getRepos(id.value.value).execute())
     }
 
