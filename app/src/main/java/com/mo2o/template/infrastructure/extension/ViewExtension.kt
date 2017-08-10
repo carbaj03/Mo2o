@@ -6,8 +6,10 @@ import android.view.MenuInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.mo2o.template.Future
 import com.mo2o.template.R
 import com.mo2o.template.infrastructure.ui.common.GlideLoader
+import kategory.Either
 
 
 const val HOME = android.R.id.home
@@ -25,7 +27,12 @@ fun Action(f: () -> Unit): Boolean {
     return true
 }
 
-fun ImageView.load(url: String) { GlideLoader(Glide.with(context)).load(url, this) }
-fun ImageView.loadCircle(url: String) { GlideLoader(Glide.with(context)).loadCircle(url, this) }
+fun ImageView.load(url: String) {
+    GlideLoader(Glide.with(context)).load(url, this)
+}
+
+fun ImageView.loadCircle(url: String) {
+    GlideLoader(Glide.with(context)).loadCircle(url, this)
+}
 
 fun MenuInflater.make(menuRes: Int, menu: Menu) = Action { inflate(menuRes, menu) }
