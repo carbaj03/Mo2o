@@ -21,4 +21,5 @@ inline fun <reified T : Activity> Activity.goToActivity(pairs: List<Pair<String,
     startActivity(intent)
 }
 
-fun Activity.getExtra(): Id = intent?.getSerializableExtra(extra)?.let { it as Id } ?: Id("")
+fun Activity.getExtra(extra: String): Id = intent?.getSerializableExtra(extra)?.let { it as Id } ?: Id("")
+fun Activity.getExtraPair(extra: String): Pair<String, Command> = extra to getExtra(extra)

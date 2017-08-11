@@ -9,10 +9,7 @@ import com.mo2o.template.R
 import com.mo2o.template.future
 import com.mo2o.template.infrastructure.api.TemplateService
 import com.mo2o.template.infrastructure.api.model.Repo
-import com.mo2o.template.infrastructure.extension.extra
-import com.mo2o.template.infrastructure.extension.getArgId
-import com.mo2o.template.infrastructure.extension.linearLayoutManager
-import com.mo2o.template.infrastructure.extension.loadFragment
+import com.mo2o.template.infrastructure.extension.*
 import com.mo2o.template.infrastructure.ui.common.BaseFragment
 import com.mo2o.template.infrastructure.ui.common.DividerDecoration
 import com.mo2o.template.infrastructure.ui.common.RepoAdapter
@@ -33,7 +30,7 @@ class RepositoryFragment : BaseFragment() {
         AndroidSupportInjection.inject(this)
 
         future(
-                service = { getRepositories(getArgId()) },
+                service = { getRepositories(getArg(login)) },
                 error = { Either.Left(GenericError.ServerError) },
                 complete = { complete(it) }
         )
@@ -62,7 +59,7 @@ class RepositoryFragment : BaseFragment() {
         addItemDecoration(divider)
         adapter = RepoAdapter(
                 items = repos,
-                listener = { loadFragment<ContentFragment>(listOf(extra to Id(it.fullName))) },
+                listener = { loadFragment<ContentFragment>(listOf(name to Id(it.name))) },
                 holder = ::RepositoryViewHolder,
                 layout = R.layout.item_repo)
     }

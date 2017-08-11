@@ -13,7 +13,11 @@ import com.mo2o.template.infrastructure.ui.common.setSlideRightAnimation
 import kategory.Option
 import kotlinx.android.synthetic.main.toolbar.*
 
-const val extra: String = "EXTRA"
+const val login: String = "LOGIN"
+const val repository: String = "REPOSITORY"
+const val path: String = "PATH"
+const val pass: String = "PASS"
+const val name: String = "NAME"
 
 inline fun <reified T : Fragment> create(args: List<Pair<String, Command>> = listOf()): T {
     val fragment = getFragment(T::class.java)
@@ -44,7 +48,7 @@ fun AppCompatActivity.setToolbar(title: Int) {
 fun Fragment.gridLayoutManager(cels: Int = 2) = GridLayoutManager(context, cels)
 fun Fragment.linearLayoutManager() = LinearLayoutManager(context)
 
-fun <E : Command> Fragment.getArgId(): Option<E> = arguments?.getSerializable(extra)?.let { Option(it as E) } ?: Option.None
+fun <E : Command> Fragment.getArg(extra: String): Option<E> = arguments?.getSerializable(extra)?.let { Option(it as E) } ?: Option.None
 
 inline fun <reified T : Activity> Fragment.load(pairs: List<Pair<String, Command>> = listOf()) = with(activity) {
     goToActivity<T>(pairs)

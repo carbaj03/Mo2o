@@ -33,17 +33,17 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
         setSupportActionBar(toolbar)
 
-        tvTitle.text = "asdfdsf"
+        tvTitle.text = "Github"
         supportActionBar!!.setDisplayShowTitleEnabled(false)
 
-        loadFragment<OverviewFragment>(listOf(extra to getExtra()))
+        loadFragment<OverviewFragment>(listOf(getExtraPair(login)))
         bnd.setOnNavigationItemSelectedListener {
             Action {
                 when (it.itemId) {
-                    OVERVIEW -> Action { loadFragment<OverviewFragment>(listOf(extra to getExtra())) }
-                    STARS -> Action { loadFragment<StarredFragment>(listOf(extra to getExtra())) }
-                    REPOSITORIES -> Action { loadFragment<RepositoryFragment>(listOf(extra to getExtra())) }
-                    FOLLOWING -> Action { loadFragment<FollowingFragment>(listOf(extra to getExtra())) }
+                    OVERVIEW -> Action { loadFragment<OverviewFragment>(listOf(getExtraPair(login))) }
+                    STARS -> Action { loadFragment<StarredFragment>(listOf(getExtraPair(login))) }
+                    REPOSITORIES -> Action { loadFragment<RepositoryFragment>(listOf(getExtraPair(login))) }
+                    FOLLOWING -> Action { loadFragment<FollowingFragment>(listOf(getExtraPair(login))) }
                 }
             }
         }
@@ -52,13 +52,13 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         this.menu = menu
         menuInflater.make(R.menu.done, menu)
-        menu.findItem(R.id.profile).isVisible = getExtra().value != preferences.get("login", "")
+        menu.findItem(R.id.profile).isVisible = getExtra(login).value != preferences.get(login, "")
         return true
     }
 
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        PROFILE -> Action { load<MainActivity>(listOf(extra to Id(preferences.get("login", "")))) }
+        PROFILE -> Action { load<MainActivity>(listOf(login to Id(preferences.get(login, "")))) }
         else -> super.onOptionsItemSelected(item)
     }
 

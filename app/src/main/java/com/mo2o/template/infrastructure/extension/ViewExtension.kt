@@ -1,15 +1,16 @@
 package com.mo2o.template.infrastructure.extension
 
+import android.support.design.widget.TextInputEditText
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.mo2o.template.Future
 import com.mo2o.template.R
 import com.mo2o.template.infrastructure.ui.common.GlideLoader
-import kategory.Either
 
 
 const val HOME = android.R.id.home
@@ -36,3 +37,6 @@ fun ImageView.loadCircle(url: String) {
 }
 
 fun MenuInflater.make(menuRes: Int, menu: Menu) = Action { inflate(menuRes, menu) }
+
+val TextInputEditText.string: String
+    get() = text.toString()

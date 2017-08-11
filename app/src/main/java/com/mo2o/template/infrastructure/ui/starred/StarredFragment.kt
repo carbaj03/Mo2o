@@ -9,8 +9,9 @@ import com.mo2o.template.Id
 import com.mo2o.template.R
 import com.mo2o.template.infrastructure.api.TemplateService
 import com.mo2o.template.infrastructure.api.model.Repo
-import com.mo2o.template.infrastructure.extension.getArgId
+import com.mo2o.template.infrastructure.extension.getArg
 import com.mo2o.template.infrastructure.extension.linearLayoutManager
+import com.mo2o.template.infrastructure.extension.login
 import com.mo2o.template.infrastructure.ui.common.BaseFragment
 import com.mo2o.template.infrastructure.ui.common.DividerDecoration
 import com.mo2o.template.infrastructure.ui.common.RepoAdapter
@@ -33,10 +34,10 @@ class StarredFragment : BaseFragment() {
 
         Future {
             try {
-                val argId = getArgId<Id>()
-                when(argId){
+                val login: Option<Id> = getArg(login)
+                when (login) {
                     is Option.None -> Either.Right(template.getStarred().execute())
-                    is Option.Some -> Either.Right(template.getStarred(argId.value.value).execute())
+                    is Option.Some -> Either.Right(template.getStarred(login.value.value).execute())
                 }
             } catch (e: Exception) {
                 Either.Left(GenericError.ServerError)

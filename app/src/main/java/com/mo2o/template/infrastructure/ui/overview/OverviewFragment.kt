@@ -2,12 +2,15 @@ package com.mo2o.template.infrastructure.ui.overview
 
 
 import android.util.Log
-import com.mo2o.template.*
+import com.mo2o.template.Future
+import com.mo2o.template.GenericError
+import com.mo2o.template.Id
+import com.mo2o.template.R
 import com.mo2o.template.infrastructure.api.TemplateService
 import com.mo2o.template.infrastructure.api.model.User
-import com.mo2o.template.infrastructure.extension.getArgId
+import com.mo2o.template.infrastructure.extension.getArg
 import com.mo2o.template.infrastructure.extension.loadCircle
-import com.mo2o.template.infrastructure.extension.setToolbar
+import com.mo2o.template.infrastructure.extension.login
 import com.mo2o.template.infrastructure.ui.common.BaseFragment
 import dagger.android.support.AndroidSupportInjection
 import kategory.Either
@@ -26,10 +29,10 @@ class OverviewFragment : BaseFragment() {
 
         Future {
             try {
-                val argId = getArgId<Id>()
-                when(argId){
+                val login = getArg<Id>(login)
+                when (login) {
                     is Option.None -> Either.Right(template.getUser().execute())
-                    is Option.Some -> Either.Right(template.getUser(argId.value.value).execute())
+                    is Option.Some -> Either.Right(template.getUser(login.value.value).execute())
                 }
             } catch (e: Exception) {
                 Either.Left(GenericError.ServerError)

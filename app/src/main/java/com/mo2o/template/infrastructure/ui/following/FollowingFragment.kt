@@ -9,7 +9,10 @@ import com.mo2o.template.Id
 import com.mo2o.template.R
 import com.mo2o.template.infrastructure.api.TemplateService
 import com.mo2o.template.infrastructure.api.model.Follow
-import com.mo2o.template.infrastructure.extension.*
+import com.mo2o.template.infrastructure.extension.getArg
+import com.mo2o.template.infrastructure.extension.linearLayoutManager
+import com.mo2o.template.infrastructure.extension.load
+import com.mo2o.template.infrastructure.extension.login
 import com.mo2o.template.infrastructure.ui.MainActivity
 import com.mo2o.template.infrastructure.ui.common.BaseFragment
 import com.mo2o.template.infrastructure.ui.common.DividerDecoration
@@ -30,8 +33,8 @@ class FollowingFragment : BaseFragment() {
         AndroidSupportInjection.inject(this)
         Future {
             try {
-                val argId = getArgId<Id>()
-                when(argId){
+                val argId = getArg<Id>(login)
+                when (argId) {
                     is Option.None -> Either.Right(template.getFollowing().execute())
                     is Option.Some -> Either.Right(template.getFollowing(argId.value.value).execute())
                 }
@@ -60,7 +63,7 @@ class FollowingFragment : BaseFragment() {
         addItemDecoration(divider)
         adapter = FollowingAdapter(
                 items = following,
-                listener = { load<MainActivity>(listOf(extra to Id(it.login))) },
+                listener = { load<MainActivity>(listOf(login to Id(it.login))) },
                 holder = ::FollowViewHolder,
                 layout = R.layout.item_follow)
     }

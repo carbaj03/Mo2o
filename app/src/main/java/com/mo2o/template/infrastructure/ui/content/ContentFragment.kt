@@ -9,14 +9,12 @@ import com.mo2o.template.R
 import com.mo2o.template.future
 import com.mo2o.template.infrastructure.api.TemplateService
 import com.mo2o.template.infrastructure.api.model.File
-import com.mo2o.template.infrastructure.api.model.Repo
-import com.mo2o.template.infrastructure.extension.getArgId
+import com.mo2o.template.infrastructure.extension.getArg
 import com.mo2o.template.infrastructure.extension.linearLayoutManager
+import com.mo2o.template.infrastructure.extension.login
 import com.mo2o.template.infrastructure.ui.common.BaseFragment
 import com.mo2o.template.infrastructure.ui.common.ContentAdapter
 import com.mo2o.template.infrastructure.ui.common.DividerDecoration
-import com.mo2o.template.infrastructure.ui.common.RepoAdapter
-import com.mo2o.template.infrastructure.ui.repository.RepositoryViewHolder
 import dagger.android.support.AndroidSupportInjection
 import kategory.Either
 import kategory.Option
@@ -34,14 +32,14 @@ class ContentFragment : BaseFragment() {
         AndroidSupportInjection.inject(this)
 
         future(
-                service = { getRepositories(getArgId()) },
+                service = { getRepositories(getArg(login)) },
                 error = { Either.Left(GenericError.ServerError) },
                 complete = { complete(it) }
         )
     }
 
     fun getRepositories(id: Option<Id>) = when (id) {
-        is Option.None -> Either.Right(template.getContent("carbaj03","Template","app").execute())
+        is Option.None -> Either.Right(template.getContent("carbaj03", "Template", "app").execute())
         is Option.Some -> Either.Right(template.getContent("carbaj03", "Template", "").execute())
     }
 
@@ -67,7 +65,6 @@ class ContentFragment : BaseFragment() {
                 holder = ::ContentViewHolder,
                 layout = R.layout.item_content)
     }
-
 
 
 }
