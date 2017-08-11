@@ -9,9 +9,9 @@ import com.mo2o.template.R
 import com.mo2o.template.future
 import com.mo2o.template.infrastructure.api.TemplateService
 import com.mo2o.template.infrastructure.api.model.File
-import com.mo2o.template.infrastructure.extension.getArg
-import com.mo2o.template.infrastructure.extension.linearLayoutManager
-import com.mo2o.template.infrastructure.extension.login
+import com.mo2o.template.infrastructure.extension.*
+import com.mo2o.template.infrastructure.persistence.Cache
+import com.mo2o.template.infrastructure.persistence.emptyValue
 import com.mo2o.template.infrastructure.ui.common.BaseFragment
 import com.mo2o.template.infrastructure.ui.common.ContentAdapter
 import com.mo2o.template.infrastructure.ui.common.DividerDecoration
@@ -25,6 +25,7 @@ import javax.inject.Inject
 
 class ContentFragment : BaseFragment() {
     @Inject lateinit var template: TemplateService
+    @Inject lateinit var preferences: Cache
 
     override fun getLayout() = R.layout.fragment_list
 
@@ -32,15 +33,15 @@ class ContentFragment : BaseFragment() {
         AndroidSupportInjection.inject(this)
 
         future(
-                service = { getRepositories(getArg(login)) },
+                service = { getContent(getArg(login), getArg(repository), getArg(path)) },
                 error = { Either.Left(GenericError.ServerError) },
                 complete = { complete(it) }
         )
     }
 
-    fun getRepositories(id: Option<Id>) = when (id) {
-        is Option.None -> Either.Right(template.getContent("carbaj03", "Template", "app").execute())
-        is Option.Some -> Either.Right(template.getContent("carbaj03", "Template", "").execute())
+    fun getContent(login: Option<Id>, repository: Option<Id>, path: Option<Id>) = when (login) {
+        is Option.None -> Either.Right(template.getContent( "", "", "").execute())
+        is Option.Some -> Either.Right(template.getContent(login.value.value, "Template", "").execute())
     }
 
     fun complete(response: Either<GenericError.ServerError, Response<List<File>>>) = when (response) {

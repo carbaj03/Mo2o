@@ -49,6 +49,7 @@ fun Fragment.gridLayoutManager(cels: Int = 2) = GridLayoutManager(context, cels)
 fun Fragment.linearLayoutManager() = LinearLayoutManager(context)
 
 fun <E : Command> Fragment.getArg(extra: String): Option<E> = arguments?.getSerializable(extra)?.let { Option(it as E) } ?: Option.None
+fun <E : Command> Fragment.getArgE(extra: String): E = arguments?.getSerializable(extra).let { it as E }
 
 inline fun <reified T : Activity> Fragment.load(pairs: List<Pair<String, Command>> = listOf()) = with(activity) {
     goToActivity<T>(pairs)

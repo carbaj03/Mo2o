@@ -1,66 +1,67 @@
-package com.mo2o.template.infrastructure.ui.common
+package com.mo2o.template.infrastructure.ui.common;
 
-import android.content.Context
-import android.content.res.Resources
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Rect
-import android.support.annotation.ColorInt
-import android.support.annotation.ColorRes
-import android.support.annotation.DimenRes
-import android.support.v7.widget.RecyclerView
-import android.util.TypedValue
-import android.view.View
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DimenRes;
+import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
+import android.view.View;
 
-import com.mo2o.template.R
+import com.mo2o.template.R;
 
 
-class DividerDecoration(@ColorInt color: Int, width: Float) : RecyclerView.ItemDecoration() {
+public class DividerDecoration extends RecyclerView.ItemDecoration {
 
-    private val paint: Paint
-    private val alpha: Int
+    private final Paint paint;
+    private final int alpha;
 
-    init {
-        paint = Paint()
-        paint.color = color
-        paint.strokeWidth = width
-        alpha = paint.alpha
+    public DividerDecoration(@ColorInt int color, float width) {
+        paint = new Paint();
+        paint.setColor(color);
+        paint.setStrokeWidth(width);
+        alpha = paint.getAlpha();
     }
 
     /**
      * {@inheritDoc}
      */
-    override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State?) {
+    @Override
+    public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
         // a line will draw half its size to top and bottom,
         // hence the offset to place it correctly
-        val offset = (paint.strokeWidth / 2).toInt()
+        final int offset = (int) (paint.getStrokeWidth() / 2);
 
         // this will iterate over every visible view
-        val max = parent.childCount
-        for (i in 0..max - 1) {
-            val view = parent.getChildAt(i)
+        int max = parent.getChildCount();
+        for (int i = 0; i < max; i++) {
+            final View view = parent.getChildAt(i);
 
-            if (view.id == R.id.itemContainer
+            if (view.getId() == R.id.itemContainer
                     && i < max - 1
-                    && parent.getChildAt(i + 1).id == view.id) {
-                val params = view.layoutParams as RecyclerView.LayoutParams
+                    && parent.getChildAt(i + 1).getId() == view.getId()) {
+                final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) view.getLayoutParams();
 
                 // get the position
-                val position = params.viewAdapterPosition
+                final int position = params.getViewAdapterPosition();
 
                 // and finally draw the separator
-                if (position < state!!.itemCount) {
+                if (position < state.getItemCount()) {
                     // apply alpha to support animations
-                    paint.alpha = (view.alpha * alpha).toInt()
+                    paint.setAlpha((int) (view.getAlpha() * alpha));
 
-                    val positionY = view.bottom.toFloat() + offset.toFloat() + view.translationY
+                    float positionY = view.getBottom() + offset + view.getTranslationY();
                     // do the drawing
-                    c.drawLine(view.left + view.translationX,
+                    c.drawLine(view.getLeft() + view.getTranslationX(),
                             positionY,
-                            view.right + view.translationX,
+                            view.getRight() + view.getTranslationX(),
                             positionY,
-                            paint)
+                            paint);
                 }
             }
         }
@@ -69,167 +70,158 @@ class DividerDecoration(@ColorInt color: Int, width: Float) : RecyclerView.ItemD
     /**
      * {@inheritDoc}
      */
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State?) {
+    @Override
+    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
 
-        val params = view.layoutParams as RecyclerView.LayoutParams
+        final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) view.getLayoutParams();
 
         // we retrieve the position in the list
-        val position = params.viewAdapterPosition
+        final int position = params.getViewAdapterPosition();
 
         // add space for the separator to the bottom of every view but the last one
-        if (position < state!!.itemCount) {
-            outRect.set(0, 0, 0, paint.strokeWidth.toInt()) // left, top, right, bottom
+        if (position < state.getItemCount()) {
+            outRect.set(0, 0, 0, (int) paint.getStrokeWidth()); // left, top, right, bottom
         } else {
-            outRect.setEmpty() // 0, 0, 0, 0
+            outRect.setEmpty(); // 0, 0, 0, 0
         }
     }
 
     /**
      * A basic builder for divider decorations. The default builder creates a 1px thick black divider decoration.
      */
-    class Builder(context: Context) {
-        private val mResources: Resources
-        private var mHeight: Int = 0
-        private var mLPadding: Int = 0
-        private var mRPadding: Int = 0
-        private var mColour: Int = 0
+    public static class Builder {
+        private Resources mResources;
+        private int mHeight;
+        private int mLPadding;
+        private int mRPadding;
+        private int mColour;
 
-        init {
-            mResources = context.resources
-            mHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 1f, context.resources.displayMetrics).toInt()
-            mLPadding = 0
-            mRPadding = 0
-            mColour = Color.BLACK
+        public Builder(Context context) {
+            mResources = context.getResources();
+            mHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 1f, context.getResources().getDisplayMetrics());
+            mLPadding = 0;
+            mRPadding = 0;
+            mColour = Color.BLACK;
         }
 
         /**
          * Set the divider height in pixels
-
+         *
          * @param pixels height in pixels
-         * *
          * @return the current instance of the Builder
          */
-        fun setHeight(pixels: Float): Builder {
-            mHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, pixels, mResources.displayMetrics).toInt()
+        public Builder setHeight(float pixels) {
+            mHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, pixels, mResources.getDisplayMetrics());
 
-            return this
+            return this;
         }
 
         /**
          * Set the divider height in dp
-
+         *
          * @param resource height resource id
-         * *
          * @return the current instance of the Builder
          */
-        fun setHeight(@DimenRes resource: Int): Builder {
-            mHeight = mResources.getDimensionPixelSize(resource)
-            return this
+        public Builder setHeight(@DimenRes int resource) {
+            mHeight = mResources.getDimensionPixelSize(resource);
+            return this;
         }
 
         /**
          * Sets both the left and right padding in pixels
-
+         *
          * @param pixels padding in pixels
-         * *
          * @return the current instance of the Builder
          */
-        fun setPadding(pixels: Float): Builder {
-            setLeftPadding(pixels)
-            setRightPadding(pixels)
+        public Builder setPadding(float pixels) {
+            setLeftPadding(pixels);
+            setRightPadding(pixels);
 
-            return this
+            return this;
         }
 
         /**
          * Sets the left and right padding in dp
-
+         *
          * @param resource padding resource id
-         * *
          * @return the current instance of the Builder
          */
-        fun setPadding(@DimenRes resource: Int): Builder {
-            setLeftPadding(resource)
-            setRightPadding(resource)
-            return this
+        public Builder setPadding(@DimenRes int resource) {
+            setLeftPadding(resource);
+            setRightPadding(resource);
+            return this;
         }
 
         /**
          * Sets the left padding in pixels
-
+         *
          * @param pixelPadding left padding in pixels
-         * *
          * @return the current instance of the Builder
          */
-        fun setLeftPadding(pixelPadding: Float): Builder {
-            mLPadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, pixelPadding, mResources.displayMetrics).toInt()
+        public Builder setLeftPadding(float pixelPadding) {
+            mLPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, pixelPadding, mResources.getDisplayMetrics());
 
-            return this
+            return this;
         }
 
         /**
          * Sets the right padding in pixels
-
+         *
          * @param pixelPadding right padding in pixels
-         * *
          * @return the current instance of the Builder
          */
-        fun setRightPadding(pixelPadding: Float): Builder {
-            mRPadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, pixelPadding, mResources.displayMetrics).toInt()
+        public Builder setRightPadding(float pixelPadding) {
+            mRPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, pixelPadding, mResources.getDisplayMetrics());
 
-            return this
+            return this;
         }
 
         /**
          * Sets the left padding in dp
-
+         *
          * @param resource left padding resource id
-         * *
          * @return the current instance of the Builder
          */
-        fun setLeftPadding(@DimenRes resource: Int): Builder {
-            mLPadding = mResources.getDimensionPixelSize(resource)
+        public Builder setLeftPadding(@DimenRes int resource) {
+            mLPadding = mResources.getDimensionPixelSize(resource);
 
-            return this
+            return this;
         }
 
         /**
          * Sets the right padding in dp
-
+         *
          * @param resource right padding resource id
-         * *
          * @return the current instance of the Builder
          */
-        fun setRightPadding(@DimenRes resource: Int): Builder {
-            mRPadding = mResources.getDimensionPixelSize(resource)
+        public Builder setRightPadding(@DimenRes int resource) {
+            mRPadding = mResources.getDimensionPixelSize(resource);
 
-            return this
+            return this;
         }
 
         /**
          * Sets the divider colour
-
+         *
          * @param resource the colour resource id
-         * *
          * @return the current instance of the Builder
          */
-        fun setColorResource(@ColorRes resource: Int): Builder {
-            setColor(mResources.getColor(resource))
+        public Builder setColorResource(@ColorRes int resource) {
+            setColor(mResources.getColor(resource));
 
-            return this
+            return this;
         }
 
         /**
          * Sets the divider colour
-
+         *
          * @param color the colour
-         * *
          * @return the current instance of the Builder
          */
-        fun setColor(@ColorInt color: Int): Builder {
-            mColour = color
+        public Builder setColor(@ColorInt int color) {
+            mColour = color;
 
-            return this
+            return this;
         }
 
     }
