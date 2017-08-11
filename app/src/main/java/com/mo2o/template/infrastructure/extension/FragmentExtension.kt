@@ -51,3 +51,11 @@ inline fun <reified T : Activity> Fragment.load(pairs: List<Pair<String, Command
     finish()
     setFadeInOutAnimation()
 }
+
+inline fun <reified T : Fragment> Fragment.loadFragment(args: List<Pair<String, Command>> = listOf()) {
+    activity.supportFragmentManager
+            .beginTransaction()
+            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+            .replace(R.id.container, create<T>(args), T::class.java.simpleName)
+            .commit()
+}

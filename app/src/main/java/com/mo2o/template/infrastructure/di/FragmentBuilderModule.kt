@@ -1,10 +1,10 @@
 package com.mo2o.template.infrastructure.di
 
+import com.mo2o.template.infrastructure.ui.content.ContentFragment
 import com.mo2o.template.infrastructure.ui.following.FollowingFragment
-import com.mo2o.template.infrastructure.ui.content.RepositoryFragment
 import com.mo2o.template.infrastructure.ui.overview.OverviewFragment
+import com.mo2o.template.infrastructure.ui.repository.RepositoryFragment
 import com.mo2o.template.infrastructure.ui.starred.StarredFragment
-
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -21,5 +21,9 @@ abstract class FragmentBuilderModule {
 
     @ContributesAndroidInjector
     abstract fun contributeFollowingFragment(): FollowingFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeContentFragment(): ContentFragment
+
 
 }

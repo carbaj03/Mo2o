@@ -35,7 +35,7 @@ interface TemplateService {
     @GET("users/{login}/following")
     fun getFollowing(@Path("login") login: String): Call<List<Follow>>
 
-    @GET("repos/{login/{repo}/contents/{path}")
+    @GET("repos/{login}/{repo}/contents/{path}")
     fun getContent(@Path("login") login: String,
                    @Path("repo") repo: String,
                    @Path("path") path: String) : Call<List<File>>

@@ -26,7 +26,7 @@ class RepositoryViewHolder(view: View) : ViewHolder<Repo>(view) {
         tvLanguage.text = language
     }
 
-    fun String.format() : String {
+    fun String.format(): String {
         val cal: Calendar = Calendar.getInstance()
         val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
         cal.time = sdf.parse(this)

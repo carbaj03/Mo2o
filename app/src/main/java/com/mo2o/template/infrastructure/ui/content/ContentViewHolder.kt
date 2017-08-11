@@ -1,35 +1,32 @@
-package com.mo2o.template.infrastructure.ui.repository
+package com.mo2o.template.infrastructure.ui.content
 
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import com.mo2o.template.R
+import com.mo2o.template.infrastructure.api.model.File
 import com.mo2o.template.infrastructure.api.model.Repo
 import com.mo2o.template.infrastructure.ui.common.ViewHolder
 import org.jetbrains.anko.find
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ContentViewHolder(view: View) : ViewHolder<Repo>(view) {
-    var tvName = view.find<TextView>(R.id.tvNameRepo)
-    var tvDescription = view.find<TextView>(R.id.tvDescription)
-    var tvLanguage = view.find<TextView>(R.id.tvLanguage)
-    var tvForks = view.find<TextView>(R.id.tvForks)
-    var tvStars = view.find<TextView>(R.id.tvStars)
+class ContentViewHolder(view: View) : ViewHolder<File>(view) {
+    var tvName = view.find<TextView>(R.id.tvName)
+    var tvType = view.find<ImageView>(R.id.tvType)
+    var tvCommit = view.find<TextView>(R.id.tvCommit)
     var tvUpdated = view.find<TextView>(R.id.tvUpdated)
 
-    override fun bind(repo: Repo) = with(repo) {
+    override fun bind(repo: File) = with(repo) {
         tvName.text = name
-        tvUpdated.text = """Updated on ${updated.format()}"""
-        tvDescription.text = description
-        tvStars.text = stars.toString()
-        tvForks.text = forks.toString()
-        tvLanguage.text = language
-    }
+        var image = 0;
+        if(type.equals("file"))
+            image = R.drawable.ic_file
+        else if (type.equals("dir"))
+            image = R.drawable.ic_folder_black_24dp
 
-    fun String.format() : String {
-        val cal: Calendar = Calendar.getInstance()
-        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-        cal.time = sdf.parse(this)
-        return """${sdf.calendar.get(Calendar.DAY_OF_MONTH)} ${sdf.calendar.get(Calendar.MONTH)} """
+        tvType.setImageResource(image)
+        tvCommit.text = content
+        tvUpdated.text = name
     }
 }

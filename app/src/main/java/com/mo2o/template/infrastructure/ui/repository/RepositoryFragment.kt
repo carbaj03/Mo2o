@@ -9,16 +9,18 @@ import com.mo2o.template.R
 import com.mo2o.template.future
 import com.mo2o.template.infrastructure.api.TemplateService
 import com.mo2o.template.infrastructure.api.model.Repo
+import com.mo2o.template.infrastructure.extension.extra
 import com.mo2o.template.infrastructure.extension.getArgId
 import com.mo2o.template.infrastructure.extension.linearLayoutManager
+import com.mo2o.template.infrastructure.extension.loadFragment
 import com.mo2o.template.infrastructure.ui.common.BaseFragment
 import com.mo2o.template.infrastructure.ui.common.DividerDecoration
 import com.mo2o.template.infrastructure.ui.common.RepoAdapter
+import com.mo2o.template.infrastructure.ui.content.ContentFragment
 import dagger.android.support.AndroidSupportInjection
 import kategory.Either
 import kategory.Option
 import kotlinx.android.synthetic.main.fragment_list.*
-import org.jetbrains.anko.support.v4.toast
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -60,11 +62,10 @@ class RepositoryFragment : BaseFragment() {
         addItemDecoration(divider)
         adapter = RepoAdapter(
                 items = repos,
-                listener = { toast(it.fullName) },
+                listener = { loadFragment<ContentFragment>(listOf(extra to Id(it.fullName))) },
                 holder = ::RepositoryViewHolder,
                 layout = R.layout.item_repo)
     }
-
 
 
 }

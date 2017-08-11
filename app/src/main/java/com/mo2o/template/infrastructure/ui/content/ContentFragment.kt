@@ -8,10 +8,12 @@ import com.mo2o.template.Id
 import com.mo2o.template.R
 import com.mo2o.template.future
 import com.mo2o.template.infrastructure.api.TemplateService
+import com.mo2o.template.infrastructure.api.model.File
 import com.mo2o.template.infrastructure.api.model.Repo
 import com.mo2o.template.infrastructure.extension.getArgId
 import com.mo2o.template.infrastructure.extension.linearLayoutManager
 import com.mo2o.template.infrastructure.ui.common.BaseFragment
+import com.mo2o.template.infrastructure.ui.common.ContentAdapter
 import com.mo2o.template.infrastructure.ui.common.DividerDecoration
 import com.mo2o.template.infrastructure.ui.common.RepoAdapter
 import com.mo2o.template.infrastructure.ui.repository.RepositoryViewHolder
@@ -39,31 +41,31 @@ class ContentFragment : BaseFragment() {
     }
 
     fun getRepositories(id: Option<Id>) = when (id) {
-        is Option.None -> Either.Right(template.getContent().execute())
-        is Option.Some -> Either.Right(template.getRepos(id.value.value).execute())
+        is Option.None -> Either.Right(template.getContent("carbaj03","Template","app").execute())
+        is Option.Some -> Either.Right(template.getContent("carbaj03", "Template", "").execute())
     }
 
-    fun complete(response: Either<GenericError.ServerError, Response<List<Repo>>>) = when (response) {
+    fun complete(response: Either<GenericError.ServerError, Response<List<File>>>) = when (response) {
         is Either.Right -> onSuccess(response.b)
         is Either.Left -> onError()
     }
 
     private fun onError() = Log.e("Error", "not success")
 
-    private fun onSuccess(response: Response<List<Repo>>): Boolean =
+    private fun onSuccess(response: Response<List<File>>): Boolean =
             response.isSuccessful
                     .apply { show(response.body()!!) }
                     .also { Log.e("Error", "not success") }
 
-    fun show(repos: List<Repo>) = with(rvItems) {
+    fun show(repos: List<File>) = with(rvItems) {
         layoutManager = linearLayoutManager()
         val divider = DividerDecoration(ContextCompat.getColor(context, R.color.primary), 1f)
         addItemDecoration(divider)
-        adapter = RepoAdapter(
+        adapter = ContentAdapter(
                 items = repos,
-                listener = { toast(it.fullName) },
-                holder = ::RepositoryViewHolder,
-                layout = R.layout.item_repo)
+                listener = { toast(it.path) },
+                holder = ::ContentViewHolder,
+                layout = R.layout.item_content)
     }
 
 

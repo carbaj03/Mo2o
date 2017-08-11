@@ -49,3 +49,5 @@ Eapp/src/main/java/com/mo2o/template/infrastructure/ui/MainActivity.kt,c/1/c1bc
 Papp/src/main/java/com/mo2o/template/infrastructure/ui/starred/StarredFragment.kt,7/1/7144af61e0a9b6bf073d1ea99f7363c25530e850
 Å
 Qapp/src/main/java/com/mo2o/template/infrastructure/extension/FragmentExtension.kt,6/c/6c84e2cc1fd498a74d0c8df69ae2ad769f171b64
+Ä
+Papp/src/main/java/com/mo2o/template/infrastructure/ui/content/ContentFragment.kt,7/c/7cd5bc1efd4ebcaeb2b8b17494af4a252e375002
