@@ -3,12 +3,10 @@ package com.mo2o.template.infrastructure.ui.following
 
 import android.support.v4.content.ContextCompat
 import android.util.Log
-import com.mo2o.template.Future
-import com.mo2o.template.GenericError
-import com.mo2o.template.Id
-import com.mo2o.template.R
+import com.mo2o.template.*
 import com.mo2o.template.infrastructure.api.TemplateService
 import com.mo2o.template.infrastructure.api.model.Follow
+import com.mo2o.template.infrastructure.api.model.Repo
 import com.mo2o.template.infrastructure.extension.*
 import com.mo2o.template.infrastructure.ui.MainActivity
 import com.mo2o.template.infrastructure.ui.common.BaseFragment
@@ -28,23 +26,22 @@ class FollowingFragment : BaseFragment() {
 
     override fun onCreate() {
         AndroidSupportInjection.inject(this)
-        Future {
-            try {
-                val argId = getArg<Id>(login)
-                when (argId) {
-                    is Option.None -> Either.Right(template.getFollowing().execute())
-                    is Option.Some -> Either.Right(template.getFollowing(argId.value.value).execute())
-                }
-            } catch (e: Exception) {
-                Either.Left(GenericError.ServerError)
-            }
-        }.onComplete {
-            when (it) {
-                is Either.Right -> onSuccess(it.b)
-                is Either.Left -> onError()
-            }
-        }
+        future(
+                service = { getStarred(getArg(login)) },
+                error = { Either.Left(GenericError.ServerError) },
+                complete = { complete(it) }
+        )
     }
+
+    private fun getStarred(login: Option<Id>) = login.fold(
+            { Either.Right(template.getFollowing().execute()) },
+            { Either.Right(template.getFollowing(it.value).execute()) }
+    )
+
+    fun complete(response: Either<GenericError.ServerError, Response<List<Follow>>>) = response.fold(
+            { onError() },
+            { onSuccess(it) }
+    )
 
     private fun onError() = Log.e("Error", "not success")
 

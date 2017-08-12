@@ -3,10 +3,10 @@ package com.mo2o.template.infrastructure.ui.starred
 
 import android.support.v4.content.ContextCompat
 import android.util.Log
-import com.mo2o.template.Future
 import com.mo2o.template.GenericError
 import com.mo2o.template.Id
 import com.mo2o.template.R
+import com.mo2o.template.future
 import com.mo2o.template.infrastructure.api.TemplateService
 import com.mo2o.template.infrastructure.api.model.Repo
 import com.mo2o.template.infrastructure.extension.getArg
@@ -33,23 +33,22 @@ class StarredFragment : BaseFragment() {
     override fun onCreate() {
         AndroidSupportInjection.inject(this)
 
-        Future {
-            try {
-                val login: Option<Id> = getArg(login)
-                when (login) {
-                    is Option.None -> Either.Right(template.getStarred().execute())
-                    is Option.Some -> Either.Right(template.getStarred(login.value.value).execute())
-                }
-            } catch (e: Exception) {
-                Either.Left(GenericError.ServerError)
-            }
-        }.onComplete {
-            when (it) {
-                is Either.Right -> onSuccess(it.b)
-                is Either.Left -> onError()
-            }
-        }
+        future(
+                service = { getStarred(getArg(login)) },
+                error = { Either.Left(GenericError.ServerError) },
+                complete = { complete(it) }
+        )
     }
+
+    private fun getStarred(login: Option<Id>) = login.fold(
+            { Either.Right(template.getStarred().execute()) },
+            { Either.Right(template.getStarred(it.value).execute()) }
+    )
+
+    fun complete(response: Either<GenericError.ServerError, Response<List<Repo>>>) = response.fold(
+            { onError() },
+            { onSuccess(it) }
+    )
 
     private fun onError() = Log.e("Error", "not success")
 
