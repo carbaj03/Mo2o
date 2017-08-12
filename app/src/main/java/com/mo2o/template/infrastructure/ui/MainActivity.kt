@@ -8,7 +8,7 @@ import android.view.MenuItem
 import com.mo2o.template.Id
 import com.mo2o.template.R
 import com.mo2o.template.infrastructure.extension.*
-import com.mo2o.template.infrastructure.persistence.Cache
+import com.mo2o.template.infrastructure.persistence.*
 import com.mo2o.template.infrastructure.ui.following.FollowingFragment
 import com.mo2o.template.infrastructure.ui.overview.OverviewFragment
 import com.mo2o.template.infrastructure.ui.repository.RepositoryFragment
@@ -52,13 +52,13 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         this.menu = menu
         menuInflater.make(R.menu.done, menu)
-        menu.findItem(R.id.profile).isVisible = getExtra(login).value != preferences.get(login, "")
+        menu.findItem(R.id.profile).isVisible = getExtra(login).value != preferences.get(login, emptyValue)
         return true
     }
 
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        PROFILE -> Action { load<MainActivity>(listOf(login to Id(preferences.get(login, "")))) }
+        PROFILE -> Action { load<MainActivity>(listOf(login to Id(preferences.get(login, emptyValue)))) }
         else -> super.onOptionsItemSelected(item)
     }
 

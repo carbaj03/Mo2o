@@ -28,6 +28,7 @@ fun <E, S> future(service: () -> Either.Right<S>, error: () -> Either.Left<E>, c
     try {
         service()
     } catch (e: Exception) {
+        e.printStackTrace()
         error()
     }
 }.onComplete {

@@ -23,6 +23,8 @@ class LoginActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
 
+        
+
         tvName.setText(preferences.get(login, emptyValue))
         tvPass.setText(preferences.get(pass, emptyValue))
 

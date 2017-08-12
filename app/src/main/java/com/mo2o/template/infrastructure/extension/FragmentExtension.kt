@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager
 import com.mo2o.template.Command
 import com.mo2o.template.R
 import com.mo2o.template.infrastructure.ui.common.setFadeInOutAnimation
-import com.mo2o.template.infrastructure.ui.common.setSlideRightAnimation
 import kategory.Option
 import kotlinx.android.synthetic.main.toolbar.*
 

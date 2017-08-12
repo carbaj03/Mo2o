@@ -2,10 +2,10 @@ package com.mo2o.template.infrastructure.ui.overview
 
 
 import android.util.Log
-import com.mo2o.template.Future
 import com.mo2o.template.GenericError
 import com.mo2o.template.Id
 import com.mo2o.template.R
+import com.mo2o.template.future
 import com.mo2o.template.infrastructure.api.TemplateService
 import com.mo2o.template.infrastructure.api.model.User
 import com.mo2o.template.infrastructure.extension.getArg
@@ -27,36 +27,37 @@ class OverviewFragment : BaseFragment() {
     override fun onCreate() {
         AndroidSupportInjection.inject(this)
 
-        Future {
-            try {
-                val login = getArg<Id>(login)
-                when (login) {
-                    is Option.None -> Either.Right(template.getUser().execute())
-                    is Option.Some -> Either.Right(template.getUser(login.value.value).execute())
-                }
-            } catch (e: Exception) {
-                Either.Left(GenericError.ServerError)
-            }
-        }.onComplete {
-            when (it) {
-                is Either.Right -> onSuccess(it.b)
-                is Either.Left -> onError()
-            }
-        }
+        future(
+                service = { getOverview(getArg(login)) },
+                error = { Either.Left(GenericError.ServerError) },
+                complete = { complete(it) }
+        )
     }
+
+    private fun getOverview(login: Option<Id>) = when (login) {
+        is Option.None -> Either.Right(template.getUser().execute())
+        is Option.Some -> Either.Right(template.getUser(login.value.value).execute())
+    }
+
+    fun complete(response: Either<GenericError.ServerError, Response<User>>): Any = when (response) {
+        is Either.Right -> onSuccess(response.b)
+        is Either.Left -> onError()
+    }
+
 
     private fun onError() = Log.e("Error", "not success")
 
-    private fun onSuccess(response: Response<User>) =
-            response.isSuccessful
-                    .apply { show(response.body()!!) }
-                    .also { Log.e("Error", "not success") }
+    private fun onSuccess(response: Response<User>) = response.isSuccessful
+            .apply { show(response.body()) }
+            .also { Log.e("Error", "not success") }
 
-    fun show(user: User) = with(user) {
-        ivAvatar.loadCircle(user.avatarUrl)
-        tvEmail.text = email
-        tvFullName.text = name
-        tvAlias.text = login
+    fun show(user: User?) = with(user) {
+        if (this != null) {
+            ivAvatar.loadCircle(avatarUrl)
+            tvEmail.text = email
+            tvFullName.text = name
+            tvAlias.text = login
+        }
     }
 
 }

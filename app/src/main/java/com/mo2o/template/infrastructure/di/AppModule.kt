@@ -6,6 +6,9 @@ import com.mo2o.template.infrastructure.persistence.Cache
 import com.mo2o.template.infrastructure.persistence.SharedPreferencesCache
 import com.mo2o.template.infrastructure.api.ServiceGenerator
 import com.mo2o.template.infrastructure.api.TemplateService
+import com.mo2o.template.infrastructure.extension.login
+import com.mo2o.template.infrastructure.extension.pass
+import com.mo2o.template.infrastructure.persistence.emptyValue
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -32,8 +35,8 @@ class AppModule {
     fun providesService(cache: Cache): TemplateService =
             ServiceGenerator.createService(
                     TemplateService::class.java,
-                    cache.get("login", ""),
-                    cache.get("pass", ""))
+                    cache.get(login, emptyValue),
+                    cache.get(pass, emptyValue))
 
     @Singleton @Provides
     fun provideCache(context: Context): Cache = SharedPreferencesCache(context)
