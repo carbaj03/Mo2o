@@ -11,14 +11,13 @@ import com.mo2o.template.infrastructure.api.TemplateService
 import com.mo2o.template.infrastructure.api.model.File
 import com.mo2o.template.infrastructure.extension.*
 import com.mo2o.template.infrastructure.persistence.Cache
-import com.mo2o.template.infrastructure.persistence.emptyValue
 import com.mo2o.template.infrastructure.ui.common.BaseFragment
 import com.mo2o.template.infrastructure.ui.common.ContentAdapter
 import com.mo2o.template.infrastructure.ui.common.DividerDecoration
 import dagger.android.support.AndroidSupportInjection
-import kategory.Either
-import kategory.Option
+import kategory.*
 import kotlinx.android.synthetic.main.fragment_list.*
+import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.support.v4.toast
 import retrofit2.Response
 import javax.inject.Inject
@@ -32,29 +31,34 @@ class ContentFragment : BaseFragment() {
     override fun onCreate() {
         AndroidSupportInjection.inject(this)
 
+        val args = Option.tupled(getArg<Id>(login), getArg<Id>(repository), getArg<Id>(path)).ev()
+        getArg<Id>(repository).fold(
+                { activity.tvTitle.text = "Sin Repo" },
+                { activity.tvTitle.text = it.value }
+        )
         future(
-                service = { getContent(getArg(login), getArg(repository), getArg(path)) },
+                service = { getContent(args) },
                 error = { Either.Left(GenericError.ServerError) },
                 complete = { complete(it) }
         )
     }
 
-    fun getContent(login: Option<Id>, repository: Option<Id>, path: Option<Id>) = when (login) {
-        is Option.None -> Either.Right(template.getContent( "", "", "").execute())
-        is Option.Some -> Either.Right(template.getContent(login.value.value, "Template", "").execute())
-    }
+    fun getContent(args: Option<Tuple3<Id, Id, Id>>) = args.fold(
+            { Either.Right(template.getContent("", "", "").execute()) },
+            { Either.Right(template.getContent(it.a.value, it.b.value, it.c.value).execute()) }
+    )
 
-    fun complete(response: Either<GenericError.ServerError, Response<List<File>>>) = when (response) {
-        is Either.Right -> onSuccess(response.b)
-        is Either.Left -> onError()
-    }
+    fun complete(response: Either<GenericError.ServerError, Response<List<File>>>) = response.fold(
+            { onError() },
+            { onSuccess(it) }
+    )
 
     private fun onError() = Log.e("Error", "not success")
 
-    private fun onSuccess(response: Response<List<File>>): Boolean =
-            response.isSuccessful
-                    .apply { show(response.body()!!) }
-                    .also { Log.e("Error", "not success") }
+    private fun onSuccess(response: Response<List<File>>) = response.isSuccessful(
+            { Log.e("Error", "not success") },
+            { show(response.body()!!) }
+    )
 
     fun show(repos: List<File>) = with(rvItems) {
         layoutManager = linearLayoutManager()
@@ -66,6 +70,4 @@ class ContentFragment : BaseFragment() {
                 holder = ::ContentViewHolder,
                 layout = R.layout.item_content)
     }
-
-
 }

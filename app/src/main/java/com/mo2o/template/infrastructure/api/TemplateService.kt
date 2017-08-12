@@ -10,7 +10,6 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface TemplateService {
-
     @GET("user")
     fun getUser(): Call<User>
 

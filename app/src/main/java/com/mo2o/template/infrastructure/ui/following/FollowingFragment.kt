@@ -9,10 +9,7 @@ import com.mo2o.template.Id
 import com.mo2o.template.R
 import com.mo2o.template.infrastructure.api.TemplateService
 import com.mo2o.template.infrastructure.api.model.Follow
-import com.mo2o.template.infrastructure.extension.getArg
-import com.mo2o.template.infrastructure.extension.linearLayoutManager
-import com.mo2o.template.infrastructure.extension.load
-import com.mo2o.template.infrastructure.extension.login
+import com.mo2o.template.infrastructure.extension.*
 import com.mo2o.template.infrastructure.ui.MainActivity
 import com.mo2o.template.infrastructure.ui.common.BaseFragment
 import com.mo2o.template.infrastructure.ui.common.DividerDecoration
@@ -51,13 +48,12 @@ class FollowingFragment : BaseFragment() {
 
     private fun onError() = Log.e("Error", "not success")
 
-    private fun onSuccess(response: Response<List<Follow>>) =
-            response.isSuccessful
-                    .apply { show(response.body()!!) }
-                    .also { Log.e("Error", "not success") }
+    private fun onSuccess(response: Response<List<Follow>>) = response.isSuccessful(
+            { Log.e("Error", "not success") },
+            { show(response.body()!!) }
+    )
 
     fun show(following: List<Follow>) = with(rvItems) {
-
         layoutManager = linearLayoutManager()
         val divider = DividerDecoration(ContextCompat.getColor(context, R.color.primary), 1f)
         addItemDecoration(divider)

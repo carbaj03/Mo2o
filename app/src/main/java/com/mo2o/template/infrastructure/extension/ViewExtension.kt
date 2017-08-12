@@ -40,3 +40,10 @@ fun MenuInflater.make(menuRes: Int, menu: Menu) = Action { inflate(menuRes, menu
 
 val TextInputEditText.string: String
     get() = text.toString()
+
+operator inline fun <B> Boolean.invoke(ifEmpty: () -> B, f: () -> B): B = when (this) {
+    false -> ifEmpty()
+    true -> f()
+}
+
+public inline fun <T, R> withNotNull(receiver: T?, block: T.() -> R): R? = receiver?.block()

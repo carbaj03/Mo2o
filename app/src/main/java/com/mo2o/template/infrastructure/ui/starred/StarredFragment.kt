@@ -10,6 +10,7 @@ import com.mo2o.template.R
 import com.mo2o.template.infrastructure.api.TemplateService
 import com.mo2o.template.infrastructure.api.model.Repo
 import com.mo2o.template.infrastructure.extension.getArg
+import com.mo2o.template.infrastructure.extension.invoke
 import com.mo2o.template.infrastructure.extension.linearLayoutManager
 import com.mo2o.template.infrastructure.extension.login
 import com.mo2o.template.infrastructure.ui.common.BaseFragment
@@ -52,10 +53,10 @@ class StarredFragment : BaseFragment() {
 
     private fun onError() = Log.e("Error", "not success")
 
-    private fun onSuccess(response: Response<List<Repo>>) =
-            response.isSuccessful
-                    .apply { show(response.body()!!) }
-                    .also { Log.e("Error", "not success") }
+    private fun onSuccess(response: Response<List<Repo>>) = response.isSuccessful(
+            { Log.e("Error", "not success") },
+            { show(response.body()!!) }
+    )
 
     fun show(repos: List<Repo>) = with(rvItems) {
         layoutManager = linearLayoutManager()

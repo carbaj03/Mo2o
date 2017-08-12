@@ -3,10 +3,7 @@ package com.mo2o.template.infrastructure.ui.repository
 
 import android.support.v4.content.ContextCompat
 import android.util.Log
-import com.mo2o.template.GenericError
-import com.mo2o.template.Id
-import com.mo2o.template.R
-import com.mo2o.template.future
+import com.mo2o.template.*
 import com.mo2o.template.infrastructure.api.TemplateService
 import com.mo2o.template.infrastructure.api.model.Repo
 import com.mo2o.template.infrastructure.extension.*
@@ -37,17 +34,17 @@ class RepositoryFragment : BaseFragment() {
 
     fun getRepositories(id: Id) = Either.Right(template.getRepos(id.value).execute())
 
-    fun complete(response: Either<GenericError.ServerError, Response<List<Repo>>>): Any = when (response) {
-        is Either.Right -> onSuccess(response.b)
-        is Either.Left -> onError()
-    }
+    fun complete(response: Either<GenericError.ServerError, Response<List<Repo>>>) = response.fold(
+            { onError() },
+            { onSuccess(it) }
+    )
 
     private fun onError() = Log.e("Error", "not success")
 
-    private fun onSuccess(response: Response<List<Repo>>): Boolean =
-            response.isSuccessful
-                    .apply { show(response.body()!!) }
-                    .also { Log.e("Error", "not success") }
+    private fun onSuccess(response: Response<List<Repo>>) = response.isSuccessful(
+            { Log.e("Error", "not success") },
+            { show(response.body()!!) }
+    )
 
     fun show(repos: List<Repo>) = with(rvItems) {
         layoutManager = linearLayoutManager()
@@ -58,7 +55,8 @@ class RepositoryFragment : BaseFragment() {
                 listener = {
                     loadFragment<ContentFragment>(listOf(
                             login to Id(getArgE<Id>(login).value),
-                            repository to Id(it.name)
+                            repository to Id(it.name),
+                            path to Id("")
                     ))
                 },
                 holder = ::RepositoryViewHolder,

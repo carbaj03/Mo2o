@@ -8,9 +8,7 @@ import com.mo2o.template.R
 import com.mo2o.template.future
 import com.mo2o.template.infrastructure.api.TemplateService
 import com.mo2o.template.infrastructure.api.model.User
-import com.mo2o.template.infrastructure.extension.getArg
-import com.mo2o.template.infrastructure.extension.loadCircle
-import com.mo2o.template.infrastructure.extension.login
+import com.mo2o.template.infrastructure.extension.*
 import com.mo2o.template.infrastructure.ui.common.BaseFragment
 import dagger.android.support.AndroidSupportInjection
 import kategory.Either
@@ -34,30 +32,27 @@ class OverviewFragment : BaseFragment() {
         )
     }
 
-    private fun getOverview(login: Option<Id>) = when (login) {
-        is Option.None -> Either.Right(template.getUser().execute())
-        is Option.Some -> Either.Right(template.getUser(login.value.value).execute())
-    }
+    private fun getOverview(login: Option<Id>) = login.fold(
+            { Either.Right(template.getUser().execute()) },
+            { Either.Right(template.getUser(it.value).execute()) }
+    )
 
-    fun complete(response: Either<GenericError.ServerError, Response<User>>): Any = when (response) {
-        is Either.Right -> onSuccess(response.b)
-        is Either.Left -> onError()
-    }
-
+    fun complete(response: Either<GenericError.ServerError, Response<User>>) = response.fold(
+            { onError() },
+            { onSuccess(it) }
+    )
 
     private fun onError() = Log.e("Error", "not success")
 
-    private fun onSuccess(response: Response<User>) = response.isSuccessful
-            .apply { show(response.body()) }
-            .also { Log.e("Error", "not success") }
+    private fun onSuccess(response: Response<User>) = response.isSuccessful(
+            { Log.e("Error", "not success") },
+            { show(response.body()) }
+    )
 
-    fun show(user: User?) = with(user) {
-        if (this != null) {
-            ivAvatar.loadCircle(avatarUrl)
-            tvEmail.text = email
-            tvFullName.text = name
-            tvAlias.text = login
-        }
+    fun show(user: User?) = withNotNull(user) {
+        ivAvatar.loadCircle(avatarUrl)
+        tvEmail.text = email
+        tvFullName.text = name
+        tvAlias.text = login
     }
-
 }
