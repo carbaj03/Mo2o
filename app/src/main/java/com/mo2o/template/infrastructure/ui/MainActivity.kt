@@ -56,7 +56,6 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         return true
     }
 
-
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         PROFILE -> Action { load<MainActivity>(listOf(login to Id(preferences.get(login, emptyValue)))) }
         else -> super.onOptionsItemSelected(item)

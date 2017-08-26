@@ -54,8 +54,9 @@ class FollowingFragment : BaseFragment() {
         layoutManager = linearLayoutManager()
         val divider = DividerDecoration(ContextCompat.getColor(context, R.color.primary), 1f)
         addItemDecoration(divider)
+        val sortedWith = following.sortedWith(compareBy({ it.login }))
         adapter = FollowingAdapter(
-                items = following,
+                items = sortedWith,
                 listener = { load<MainActivity>(listOf(login to Id(it.login))) },
                 holder = ::FollowViewHolder,
                 layout = R.layout.item_follow)

@@ -18,10 +18,9 @@ data class DividerDecorationK(
         val color: Int,
         val with: Float
 ) : RecyclerView.ItemDecoration() {
-    val paint: Paint
+    var paint: Paint = Paint()
 
     init {
-        paint = Paint()
         paint.color = color
         paint.strokeWidth = with
     }
@@ -29,7 +28,6 @@ data class DividerDecorationK(
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         val offset = (paint.strokeWidth / 2).toInt()
 
-        // this will iterate over every visible view
         val max = parent.childCount
         for (i in 0..max - 1) {
             val view = parent.getChildAt(i)
@@ -37,46 +35,54 @@ data class DividerDecorationK(
             if (view.id == R.id.itemContainer
                     && i < max - 1
                     && parent.getChildAt(i + 1).id == view.id) {
-                val params = view.layoutParams as RecyclerView.LayoutParams
+                val position = (view.layoutParams as RecyclerView.LayoutParams).viewAdapterPosition
 
-                val position = params.viewAdapterPosition
-
-                // and finally draw the separator
                 if (position < state.itemCount) {
-                    // apply alpha to support animations
-                    drawSeparator(view, offset, c)
+                    paint.alpha = (view.alpha * paint.alpha).toInt()
+                    drawSeparator(view, offset, c, paint)
                 }
             }
         }
     }
 
-    private fun drawSeparator(view: View, offset: Int, c: Canvas) {
-        paint.alpha = (view.alpha * paint.alpha).toInt()
-        val positionY = view.bottom.toFloat() + offset.toFloat() + view.translationY
-        c.drawLine(view.left + view.translationX,
-                positionY,
-                view.right + view.translationX,
-                positionY,
-                paint)
+    private fun drawSeparator(view: View, offset: Int, canvas: Canvas, paint: Paint) {
+        with(view) {
+            canvas.drawLine(
+                    getStartX(view),
+                    getStartY(view, offset.toFloat()),
+                    getStopX(view),
+                    getStopY(view, offset.toFloat()),
+                    paint
+            )
+        }
     }
 
+    fun getStartX(v: View)= with(v){ left + translationX }
+
+    fun getStopX(v: View)= with(v){ right + translationX }
+
+    fun getStartY(v: View, offset: Float) = with(v){ bottom.toFloat() + offset + translationY }
+
+    fun getStopY(v: View, offset: Float) = with(v){ bottom.toFloat() + offset + translationY }
+
+
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-        val params = view.layoutParams as RecyclerView.LayoutParams
+        val position = (view.layoutParams as RecyclerView.LayoutParams).viewAdapterPosition
 
-        // we retrieve the position in the list
-        val position = params.viewAdapterPosition
-
-        // add space for the separator to the bottom of every view but the last one
         if (position < state.itemCount) {
-            outRect.set(0, 0, 0, paint.strokeWidth.toInt()) // left, top, right, bottom
+            outRect.set(0, 0, 0, paint.strokeWidth.toInt())
         } else {
-            outRect.setEmpty() // 0, 0, 0, 0
+            outRect.setEmpty()
         }
     }
 
     class Builder(context: Context) {
         private val mResources: Resources = context.resources
-        private var mHeight: Int = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 1f, context.resources.displayMetrics).toInt()
+        private var mHeight: Int = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_PX,
+                1f,
+                context.resources.displayMetrics
+        ).toInt()
         private var mLPadding: Int = 0
         private var mRPadding: Int = 0
         private var mColour: Int = Color.BLACK
@@ -122,6 +128,5 @@ data class DividerDecorationK(
         fun setColor(@ColorInt color: Int) = apply {
             mColour = color
         }
-
     }
 }
