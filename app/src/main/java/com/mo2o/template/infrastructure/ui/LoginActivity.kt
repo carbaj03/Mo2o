@@ -42,7 +42,7 @@ class LoginActivity : AppCompatActivity() {
             preferences.put(pass, tvPass.string)
             future(
                     service = { getOverview() },
-                    error = { Either.Left(GenericError.ServerError) },
+                    error = { Either.Left(GenericError.ServerError) complete(it) } ,
                     complete = { complete(it) }
             )
         }

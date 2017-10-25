@@ -13,6 +13,7 @@ import com.mo2o.template.infrastructure.ui.common.RepoAdapter
 import com.mo2o.template.infrastructure.ui.content.ContentFragment
 import dagger.android.support.AndroidSupportInjection
 import kategory.Either
+import kategory.ListMonoid
 import kotlinx.android.synthetic.main.fragment_list.*
 import retrofit2.Response
 import javax.inject.Inject

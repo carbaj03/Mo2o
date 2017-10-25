@@ -24,7 +24,7 @@ class Future<T> {
     fun onComplete(f: (T) -> Unit) { launch(UI) { f(deferred.await()) } }
 }
 
-fun <E, S> future(service: () -> Either<E, S>, error: () -> Either.Left<E>, complete: (Either<E, S>) -> Unit): Unit = Future {
+fun <E, S> future(service: () -> Either<E, S>, error: () -> Either.Left<E, S>, complete: (Either<E, S>) -> Unit): Unit = Future {
     try {
         service()
     } catch (e: Exception) {

@@ -26,4 +26,5 @@
         app:itemTextColor="@color/primary_light_text"
         app:menu="@menu/main" />
 
+
 </android.support.design.widget.CoordinatorLayout>

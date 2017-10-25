@@ -19,14 +19,12 @@ const val pass: String = "PASS"
 const val name: String = "NAME"
 
 inline fun <reified T : Fragment> create(args: List<Pair<String, Command>> = listOf()): T {
-    val fragment = getFragment(T::class.java)
+    val fragment = T::class.java.newInstance()
     val bundle = Bundle()
     args.map { bundle.putSerializable(it.first, it.second) }
     fragment.arguments = bundle
     return fragment
 }
-
-fun <T> getFragment(c: Class<T>) = c.newInstance()
 
 inline fun <reified T : Fragment> AppCompatActivity.loadFragment(args: List<Pair<String, Command>> = listOf()) {
     supportFragmentManager
